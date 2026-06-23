@@ -1,0 +1,19 @@
+Shruthika Omkumar — portfolio site
+
+Run from this folder:
+
+  pip install -r requirements.txt
+  python portfolio.py
+
+Open: http://127.0.0.1:5000
+
+Files:
+  portfolio.py      — main app (Flask + templates + content)
+  blogs.json        — life blog posts
+  messages.json     — contact form submissions (auto-created)
+  requirements.txt  — Python dependencies
+  static/           — images (projects/, hero.jpg, about.jpg)
+
+Optional env vars:
+  COMPOSE_PASSWORD  — blog compose page password (default: kia-compose-2026)
+  PORTFOLIO_SECRET  — Flask session secret

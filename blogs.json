@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "hello-world",
+    "title": "hello world",
+    "date": "Jun 2026",
+    "excerpt": "first first blogg",
+    "body": "this is my first blog on my own portfolio and i hope anyone reading this had an amazing day today!!"
+  },
+  {
+    "slug": "still-figuring-it-out",
+    "title": "Still figuring it out",
+    "date": "Jun 2026",
+    "excerpt": "A little hello from the crossroads of creative stuff and nerdy stuff.",
+    "body": "Hey, I'm Kia. This is where I'll post about life, projects, flops, wins, and whatever I'm experimenting with next.\n\nIf you found this, welcome. More soon."
+  }
+]
