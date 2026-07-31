@@ -112,6 +112,9 @@ CONTENT = {
             "BS-ing (Native or Bilingual)",
         ],
         "awards": [
+            "FCCLA National Champion & Gold Medalist, School to Career Challenge Test Level 2 (NATS, Washington D.C.)",
+            "FCCLA Silver Medal Finalist, Sustainability Challenge Level 2 (NATS)",
+            "Featured in Frisco Enterprise / Star Local Media for FCCLA nationals medals",
             "UNA USA Ambassador 2025-26, United Nations Association USA",
             "Scouted by 1507 Funds, Danielle Strachman",
             "FCCLA Sustainability Challenge, State 3rd Place & National Qualifier",
@@ -132,6 +135,7 @@ CONTENT = {
             {"role": "Human Resources Director", "company": "DreamyUni, Brooklyn, NY", "year": "Jul 2025 to Present"},
             {"role": "Marketing Intern", "company": "DreamyUni, Brooklyn, NY", "year": "Oct 2024 to Jun 2025"},
             {"role": "UNA USA Ambassador", "company": "United Nations Association USA", "year": "2025-26", "link": "https://innerview.org/shruthikaomkumar2"},
+            {"role": "VP of Competitive Events & Chapter Web Builder", "company": "Lebanon Trail FCCLA, built lt-fccla.vercel.app", "year": "2025-26", "link": "https://lt-fccla.vercel.app/"},
             {"role": "Graphic Lead", "company": "LaunchPoint, 22k+ IG followers, visual strategy & growth", "year": "Jun 2026 to Present"},
             {"role": "Director of Fundraising", "company": "Horizon Labs", "year": "Mar 2025 to Present"},
             {"role": "Director of Fundraising", "company": "The Metastatic Cancer Initiative, Texas", "year": "Dec 2024 to Present"},
@@ -218,6 +222,14 @@ CONTENT = {
             "story": "",
         },
         {
+            "slug": "lt-fccla",
+            "title": "Lebanon Trail FCCLA",
+            "category": "chapter website / design + build",
+            "image": f"{STATIC_PROJECTS}/lt-fccla.png",
+            "href": "https://lt-fccla.vercel.app/",
+            "story": "",
+        },
+        {
             "slug": "launchpoint",
             "title": "LaunchPoint",
             "category": "graphic design / 22k+ IG",
@@ -226,9 +238,23 @@ CONTENT = {
             "story": "",
         },
         {
+            "slug": "fccla-nats",
+            "title": "FCCLA Nationals",
+            "category": "national champion + silver medal",
+            "image": f"{STATIC_PROJECTS}/fccla-sustainability.jpg",
+            "href": "https://starlocalmedia.com/friscoenterprise/news/frisco-isd-students-earn-medals-at-fccla-nationals/article_54aa6c9e-50a1-47a8-b710-5dcd8dca20c9.html",
+            "story": (
+                "At the FCCLA National Leadership Conference (NATS) in Washington, D.C., "
+                "I was named National Champion and Gold Medalist in the School to Career "
+                "Challenge Test Level 2, and earned a Silver Medal Finalist honor in the "
+                "Sustainability Challenge Level 2. Frisco Enterprise / Star Local Media "
+                "covered the medals for Frisco ISD."
+            ),
+        },
+        {
             "slug": "fccla-sustainability",
             "title": "Sustainability Challenge",
-            "category": "FCCLA / state 3rd, national qualifier",
+            "category": "FCCLA / state 3rd → NATS silver",
             "image": f"{STATIC_PROJECTS}/fccla-sustainability.jpg",
             "href": "https://www.friscoisd.org/article/3004120",
             "story": "",
@@ -251,6 +277,17 @@ CONTENT = {
         },
     ],
     "writing": [
+        {
+            "title": "Frisco ISD students earn medals at FCCLA nationals",
+            "date": "Press",
+            "publisher": "Frisco Enterprise / Star Local Media",
+            "excerpt": (
+                "Coverage of my FCCLA NATS results: National Champion & Gold Medalist "
+                "(School to Career Challenge Test Level 2) and Silver Medal Finalist "
+                "(Sustainability Challenge Level 2)."
+            ),
+            "href": "https://starlocalmedia.com/friscoenterprise/news/frisco-isd-students-earn-medals-at-fccla-nationals/article_54aa6c9e-50a1-47a8-b710-5dcd8dca20c9.html",
+        },
         {
             "title": "Unveiling True Self: Defying Society's Gaze",
             "date": "Paper publication",
@@ -530,6 +567,7 @@ BASE_HTML = r"""<!DOCTYPE html>
     }
     .hero-portrait-wrap img {
       width: 100%; height: 100%; object-fit: cover;
+      object-position: center top;
       transition: transform 0.6s var(--ease);
     }
     .hero-portrait-wrap:hover img { transform: scale(1.06); }
@@ -706,7 +744,10 @@ BASE_HTML = r"""<!DOCTYPE html>
       aspect-ratio: 3/4; box-shadow: 0 40px 80px rgba(0,0,0,0.45);
       transform-style: preserve-3d;
     }
-    .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .about-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: 50% 18%;
+    }
     .about-photo::before {
       content: ""; position: absolute; inset: 0; z-index: 1;
       background: linear-gradient(135deg, rgba(240,184,200,0.12) 0%, transparent 60%);
@@ -1092,10 +1133,10 @@ HOME_PAGE = r"""{% extends "base.html" %}
       <a href="/about" class="btn-pill magnetic"><span>{{ hero.cta_about }}</span></a>
     </div>
   </div>
-  <div class="hero-visual reveal-scale" data-delay="0.15">
+  <div class="hero-visual reveal-scale visible" data-delay="0.15">
     <div class="hero-circle" aria-hidden="true"></div>
     <div class="hero-portrait-wrap" data-tilt>
-      <img src="{{ hero.portrait }}" alt="{{ meta.name }}">
+      <img src="{{ hero.portrait }}" alt="{{ meta.name }}" width="800" height="1082" decoding="async">
       <span class="hero-badge">{{ meta.title }}</span>
     </div>
   </div>
@@ -1211,8 +1252,8 @@ PROJECT_PAGE = r"""{% extends "base.html" %}
 ABOUT_PAGE = r"""{% extends "base.html" %}
 {% block content %}
 <div class="about-hero">
-  <div class="about-photo reveal-scale" data-tilt>
-    <img src="{{ about.portrait }}" alt="{{ meta.name }}">
+  <div class="about-photo reveal-scale visible" data-tilt>
+    <img src="{{ about.portrait }}" alt="{{ meta.name }}" width="800" height="1082" decoding="async">
     <span class="about-photo-label">{{ meta.title }}</span>
   </div>
   <div>
@@ -1664,4 +1705,5 @@ def compose():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", "5000"))
+    app.run(host="0.0.0.0", port=port, debug=os.environ.get("FLASK_DEBUG") == "1")
