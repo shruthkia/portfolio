@@ -567,7 +567,7 @@ BASE_HTML = r"""<!DOCTYPE html>
     }
     .hero-portrait-wrap img {
       width: 100%; height: 100%; object-fit: cover;
-      object-position: 50% 18%;
+      object-position: center top;
       transition: transform 0.6s var(--ease);
     }
     .hero-portrait-wrap:hover img { transform: scale(1.06); }
@@ -1133,10 +1133,10 @@ HOME_PAGE = r"""{% extends "base.html" %}
       <a href="/about" class="btn-pill magnetic"><span>{{ hero.cta_about }}</span></a>
     </div>
   </div>
-  <div class="hero-visual reveal-scale" data-delay="0.15">
+  <div class="hero-visual reveal-scale visible" data-delay="0.15">
     <div class="hero-circle" aria-hidden="true"></div>
     <div class="hero-portrait-wrap" data-tilt>
-      <img src="{{ hero.portrait }}" alt="{{ meta.name }}">
+      <img src="{{ hero.portrait }}" alt="{{ meta.name }}" width="800" height="1082" decoding="async">
       <span class="hero-badge">{{ meta.title }}</span>
     </div>
   </div>
@@ -1252,8 +1252,8 @@ PROJECT_PAGE = r"""{% extends "base.html" %}
 ABOUT_PAGE = r"""{% extends "base.html" %}
 {% block content %}
 <div class="about-hero">
-  <div class="about-photo reveal-scale" data-tilt>
-    <img src="{{ about.portrait }}" alt="{{ meta.name }}">
+  <div class="about-photo reveal-scale visible" data-tilt>
+    <img src="{{ about.portrait }}" alt="{{ meta.name }}" width="800" height="1082" decoding="async">
     <span class="about-photo-label">{{ meta.title }}</span>
   </div>
   <div>
@@ -1705,4 +1705,5 @@ def compose():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", "5000"))
+    app.run(host="0.0.0.0", port=port, debug=os.environ.get("FLASK_DEBUG") == "1")
