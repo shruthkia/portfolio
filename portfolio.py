@@ -567,6 +567,7 @@ BASE_HTML = r"""<!DOCTYPE html>
     }
     .hero-portrait-wrap img {
       width: 100%; height: 100%; object-fit: cover;
+      object-position: 50% 18%;
       transition: transform 0.6s var(--ease);
     }
     .hero-portrait-wrap:hover img { transform: scale(1.06); }
@@ -743,7 +744,10 @@ BASE_HTML = r"""<!DOCTYPE html>
       aspect-ratio: 3/4; box-shadow: 0 40px 80px rgba(0,0,0,0.45);
       transform-style: preserve-3d;
     }
-    .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .about-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: 50% 18%;
+    }
     .about-photo::before {
       content: ""; position: absolute; inset: 0; z-index: 1;
       background: linear-gradient(135deg, rgba(240,184,200,0.12) 0%, transparent 60%);
