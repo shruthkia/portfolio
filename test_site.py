@@ -72,8 +72,12 @@ def test_routes() -> None:
     assert "/static/brain/polaroid-me.jpg" in brain
     assert "fragile" not in brain.lower()
     assert "fragile.png" not in brain
-    assert "brain-deco-row" in brain
-    assert "brain-photo-decos" in brain
+    assert "brain-scatter" in brain
+    assert "brain-deco-row" not in brain
+    assert "brain-photo-decos" not in brain
+    assert "/static/brain/shell.png" in brain
+    assert "/static/brain/earbuds.png" in brain
+    assert "/static/brain/coffee.png" in brain
     work = client.get("/work/microbit-automizer").get_data(as_text=True)
     assert "AUTOMAZER" in work
     assert "lambjam" in client.get("/work").get_data(as_text=True) or "Finch" in work

@@ -1169,6 +1169,15 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
 <div class="brain-collage">
 <section class="brain-band brain-grid-cream">
   <div class="brain-band-inner">
+    <div class="brain-scatter" aria-hidden="true">
+      <img class="sticker s-shell" src="/static/brain/shell.png" alt="">
+      <img class="sticker s-clip" src="/static/brain/clip.png" alt="">
+      <img class="sticker s-star" src="/static/brain/star.png" alt="">
+      <img class="sticker s-apple" src="/static/brain/apple.png" alt="">
+      <img class="sticker s-banana" src="/static/brain/banana.png" alt="">
+      <img class="sticker s-notebook" src="/static/brain/notebook.png" alt="">
+      <img class="sticker s-keys" src="/static/brain/keys.png" alt="">
+    </div>
     <div class="brain-hero-top">
       <p class="brain-kicker reveal">{{ brain.kicker }}</p>
       <h1 class="brain-title reveal">welcome to my <em>brain</em><span class="brain-emoji" aria-hidden="true">🧠</span></h1>
@@ -1183,15 +1192,6 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
       </div>
       <div class="brain-photo-wrap reveal-scale">
         <img class="brain-photo" src="/static/brain/center.jpg" alt="{{ meta.name }} in a leopard-print dress, shrugging in a gallery">
-        <div class="brain-photo-decos" aria-hidden="true">
-          <img class="sticker sticker-shell" src="/static/brain/shell.png" alt="">
-          <img class="sticker sticker-apple" src="/static/brain/apple.png" alt="">
-          <img class="sticker sticker-banana" src="/static/brain/banana.png" alt="">
-          <img class="sticker sticker-keys" src="/static/brain/keys.png" alt="">
-          <img class="sticker sticker-clip" src="/static/brain/clip.png" alt="">
-          <img class="sticker sticker-notebook" src="/static/brain/notebook.png" alt="">
-          <img class="sticker sticker-star" src="/static/brain/star.png" alt="">
-        </div>
       </div>
     </div>
   </div>
@@ -1199,6 +1199,13 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
 
 <section class="brain-band brain-grid-pink">
   <div class="brain-band-inner">
+    <div class="brain-scatter" aria-hidden="true">
+      <img class="sticker s-star" src="/static/brain/star.png" alt="">
+      <img class="sticker s-notebook" src="/static/brain/notebook.png" alt="">
+      <img class="sticker s-receipt" src="/static/brain/receipt.png" alt="">
+      <img class="sticker s-dog" src="/static/brain/dog.png" alt="">
+      <img class="sticker s-coffee" src="/static/brain/coffee.png" alt="">
+    </div>
     <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">the <em>side hustles</em> 🔥</h2>
     <div class="brain-hustle-field">
       {% for h in brain.hustles %}
@@ -1208,18 +1215,20 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
       </article>
       {% endfor %}
     </div>
-    <div class="brain-deco-row" aria-hidden="true">
-      <img class="sticker" src="/static/brain/receipt.png" alt="" style="width:64px;transform:rotate(8deg);">
-      <img class="sticker" src="/static/brain/star.png" alt="" style="width:46px;transform:rotate(-12deg);">
-      <img class="sticker" src="/static/brain/coffee.png" alt="" style="width:78px;transform:rotate(-8deg);">
-      <img class="sticker" src="/static/brain/dog.png" alt="" style="width:82px;transform:rotate(8deg);">
-    </div>
     <p class="brain-note">{{ brain.hustles_note }}</p>
   </div>
 </section>
 
 <section class="brain-band brain-grid-dark">
   <div class="brain-band-inner brain-dark-layout">
+    <div class="brain-scatter" aria-hidden="true">
+      <img class="sticker s-earbuds" src="/static/brain/earbuds.png" alt="">
+      <img class="sticker s-dog" src="/static/brain/dog.png" alt="">
+      <img class="sticker s-apple" src="/static/brain/apple.png" alt="">
+      <img class="sticker s-keys" src="/static/brain/keys.png" alt="">
+      <img class="sticker s-shell" src="/static/brain/shell.png" alt="">
+      <img class="sticker s-clip" src="/static/brain/clip.png" alt="">
+    </div>
     <div class="brain-text">
       <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">hyper-<em>fixations</em> 😜</h2>
       <ul class="brain-fix-list">
@@ -1239,12 +1248,6 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
       </div>
     </div>
     <div class="brain-dark-deco">
-      <div class="brain-deco-row brain-deco-row-dark" aria-hidden="true">
-        <img class="sticker" src="/static/brain/earbuds.png" alt="" style="width:132px;transform:rotate(12deg);">
-        <img class="sticker" src="/static/brain/dog.png" alt="" style="width:110px;">
-        <img class="sticker" src="/static/brain/apple.png" alt="" style="width:64px;transform:rotate(-18deg);">
-        <img class="sticker" src="/static/brain/keys.png" alt="" style="width:88px;transform:rotate(14deg);">
-      </div>
       <aside class="sticky-note reveal">
         <p>“{{ quote.text }}”</p>
         <cite>{{ quote.attr }}</cite>
