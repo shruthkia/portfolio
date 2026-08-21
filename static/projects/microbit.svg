@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title">
+  <title id="title">micro:bit Automizer</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a2430"/>
+      <stop offset="100%" stop-color="#1a1418"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g opacity="0.18" stroke="#f0b8c8" stroke-width="1">
+    <path d="M0 50h800M0 100h800M0 150h800M0 200h800M0 250h800M0 300h800M0 350h800M0 400h800M0 450h800M0 500h800M0 550h800"/>
+    <path d="M50 0v600M100 0v600M150 0v600M200 0v600M250 0v600M300 0v600M350 0v600M400 0v600M450 0v600M500 0v600M550 0v600M600 0v600M650 0v600M700 0v600M750 0v600"/>
+  </g>
+  <rect x="175" y="145" width="450" height="310" rx="36" fill="#f4d24a"/>
+  <rect x="175" y="145" width="450" height="310" rx="36" fill="none" stroke="#1a1418" stroke-width="10"/>
+  <circle cx="205" cy="175" r="7" fill="#d8d8d8"/>
+  <circle cx="595" cy="175" r="7" fill="#d8d8d8"/>
+  <circle cx="205" cy="425" r="7" fill="#d8d8d8"/>
+  <circle cx="595" cy="425" r="7" fill="#d8d8d8"/>
+  <g fill="#1a1418">
+    <circle cx="332" cy="232" r="10"/>
+    <circle cx="368" cy="232" r="10"/>
+    <circle cx="404" cy="232" r="10"/>
+    <circle cx="440" cy="232" r="10"/>
+    <circle cx="476" cy="232" r="10"/>
+    <circle cx="332" cy="268" r="10"/>
+    <circle cx="368" cy="268" r="10" fill="#c43b6e"/>
+    <circle cx="404" cy="268" r="10"/>
+    <circle cx="440" cy="268" r="10" fill="#c43b6e"/>
+    <circle cx="476" cy="268" r="10"/>
+    <circle cx="332" cy="304" r="10"/>
+    <circle cx="368" cy="304" r="10"/>
+    <circle cx="404" cy="304" r="10" fill="#c43b6e"/>
+    <circle cx="440" cy="304" r="10"/>
+    <circle cx="476" cy="304" r="10"/>
+    <circle cx="332" cy="340" r="10"/>
+    <circle cx="368" cy="340" r="10" fill="#c43b6e"/>
+    <circle cx="404" cy="340" r="10"/>
+    <circle cx="440" cy="340" r="10" fill="#c43b6e"/>
+    <circle cx="476" cy="340" r="10"/>
+    <circle cx="332" cy="376" r="10"/>
+    <circle cx="368" cy="376" r="10"/>
+    <circle cx="404" cy="376" r="10"/>
+    <circle cx="440" cy="376" r="10"/>
+    <circle cx="476" cy="376" r="10"/>
+  </g>
+  <circle cx="250" cy="304" r="28" fill="#efe7c8" stroke="#1a1418" stroke-width="4"/>
+  <text x="250" y="312" text-anchor="middle" font-family="Manrope, Jost, sans-serif" font-size="22" font-weight="700" fill="#1a1418">A</text>
+  <circle cx="558" cy="304" r="28" fill="#efe7c8" stroke="#1a1418" stroke-width="4"/>
+  <text x="558" y="312" text-anchor="middle" font-family="Manrope, Jost, sans-serif" font-size="22" font-weight="700" fill="#1a1418">B</text>
+  <text x="400" y="545" text-anchor="middle" font-family="Jost, sans-serif" font-size="22" letter-spacing="3" fill="#f4b6c6">AUTOMIZER</text>
+</svg>
