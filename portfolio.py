@@ -269,17 +269,31 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/adopurr.png",
             "href": "#",
             "story": (
-                "Adopurr is an AI matching system for cat adoption, and now dogs too. It started "
-                "after freshman year at Mini Cat Town, where I fed cats, played with them, and "
-                "checked if they were sick. Same breed, totally different personalities. A "
-                "fifteen-minute adoption vibe check felt sloppy next to that.\n\n"
-                "I pulled behaviour research into models like Monte Carlo and random forest so "
-                "a home fit is less of a guess. Coding used to feel like the worst invention on "
-                "earth (both my parents do it). This project flipped that, and it is why I would "
-                "rather build as a social entrepreneur than work for someone else.\n\n"
-                "Since the 1517 Fund community: talks with Dallas Animal Shelter, Operation "
-                "Kindness, and local shelters; Paws for Cause, a student NPO branch with 25+ "
-                "chapters scouted; $400 from national FCCLA to start fundraising."
+                "A cat adoption can get decided in fifteen minutes. That always felt off to me, "
+                "especially in a world that can already predict the next movie I will watch. If "
+                "the algorithm is that good at entertainment, why are we still guessing when a "
+                "cat needs a home?\n\n"
+                "That question is why I built Adopurr, an AI-driven matching system I have been "
+                "on for about two years. Freshman year I worked at Mini Cat Town: play with the "
+                "cats, feed them, notice if they were sick. I could have stopped at cute. I "
+                "did not. Same breed, completely different personalities, and I kept thinking "
+                "that if we study human traits to make better decisions, we can study animals "
+                "the same way. So I started reading the journals, then using things like Monte "
+                "Carlo and random forest to match cats with the people who will actually keep "
+                "them. Happy cat, happy home.\n\n"
+                "I used to hate coding. Both of my parents do it for a living, and debugging "
+                "never looked like a calling from where I was sitting. Research is what made "
+                "it click. The work was not the problem. Sitting in someone else's workplace "
+                "was. That is also when I decided I would rather build something that helps "
+                "people and animals than work for someone else. Social entrepreneur is the "
+                "flashy label. I just wanted the matching to be less random.\n\n"
+                "Getting into the 1517 Fund community changed the pace. We have been in talks "
+                "with Dallas Animal Shelter, Operation Kindness, and other local shelters, and "
+                "the work has expanded into dogs: characteristics, emotional triggers, the "
+                "same matching problem with a bigger animal. Over the summer we planned Paws "
+                "for Cause, an NPO branch where high school chapters advocate for animal "
+                "welfare and fundraise. We have already scouted more than 25 chapters, got "
+                "$400 from national FCCLA to start, and we are raising the rest ourselves."
             ),
         },
         {
@@ -289,8 +303,12 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/arkire.jpg",
             "href": "#",
             "story": (
-                "Arkire was a student-facing smart marketing agency. I co-founded and ran "
-                "growth, then left when it stopped lining up with where I wanted to go."
+                "Arkire was a smart marketing agency that taught students how marketing "
+                "actually works. I came in as co-founder and head of growth: positioning, "
+                "outreach, turning interest into real users instead of a nice deck.\n\n"
+                "I left because it stopped lining up with the kind of work I want to be "
+                "responsible for. Not a blowup. A filter. I would rather spend the hours on "
+                "things I still believe in when nobody is watching."
             ),
         },
         {
@@ -300,12 +318,15 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/lt-fccla.png",
             "href": "https://lt-fccla.vercel.app/",
             "story": (
-                "Lebanon Trail FCCLA is the chapter that felt like family after I moved to "
-                "Texas sophomore year. I competed, learned it inside out, and I am VP of "
-                "Competitive Events this year.\n\n"
-                "Five service projects on the board, about $3500 projected in funding, plus "
-                "the chapter site I built so people can actually find us. The job, for me, is "
-                "making sure everyone in the chapter gets to be themselves and still grow."
+                "Lebanon Trail FCCLA is the chapter that gave me a family after I moved to "
+                "Texas. I joined as a member sophomore year, right after the move, and they "
+                "made me feel included before I had any titles. Then I competed, learned FCCLA "
+                "inside out, and got elected VP of Competitive Events.\n\n"
+                "This year we have five service projects planned and about $3500 projected in "
+                "funding. I also built the chapter site so members are not hunting for "
+                "deadlines in a group chat. As VP of comp, I care less about collecting "
+                "officers and more about whether people actually get to show who they are and "
+                "still grow. That is the whole point of a chapter for me."
             ),
         },
         {
@@ -315,9 +336,13 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/launchpoint.png",
             "href": "#",
             "story": (
-                "Summer branding and Instagram for LaunchPoint, a UGC startup for star athletes "
-                "founded by Tristan Rhee, Adam Barr-Neuwirth, and Caleb Downs of the Dallas "
-                "Cowboys. The page was at 22K+ followers when I left."
+                "LaunchPoint is a UGC startup for star athletes, founded by Tristan Rhee "
+                "(CEO), Adam Barr-Neuwirth (CTO), and Caleb Downs of the Dallas Cowboys. I "
+                "spent the summer there as a branding intern: graphics, Instagram, making the "
+                "page look like it knew what it was doing.\n\n"
+                "By the time I left, the account was at 22K+ followers. The work was fast and "
+                "public, which I liked. Visuals are how people decide to stay, so I treated "
+                "the feed like that, not like leftover posters."
             ),
         },
         {
@@ -328,9 +353,13 @@ CONTENT = {
             "image_alt": "Four Lebanon Trail FCCLA members in red blazers under the 2026 National Leadership Conference welcome arch",
             "href": "https://starlocalmedia.com/friscoenterprise/news/frisco-isd-students-earn-medals-at-fccla-nationals/article_54aa6c9e-50a1-47a8-b710-5dcd8dca20c9.html",
             "story": (
-                "FCCLA National Leadership Conference: National Champion and gold in School to "
-                "Career Challenge Test Level 2, silver finalist in Sustainability Challenge "
-                "Level 2. Frisco Enterprise covered the medals. Showed up, did the work, it counted."
+                "At the FCCLA National Leadership Conference I was named National Champion and "
+                "gold medalist in School to Career Challenge Test Level 2, and silver medal "
+                "finalist in Sustainability Challenge Level 2.\n\n"
+                "Frisco Enterprise and Star Local Media covered it for Frisco ISD. The photo "
+                "is us in the red blazers under the NLC arch, which is still the version of "
+                "the week I remember most. Competitive events are a lot of studying in rooms "
+                "that do not look like this. Then they do."
             ),
         },
         {
@@ -340,14 +369,24 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/fccla-sustainability.jpg",
             "href": "https://www.friscoisd.org/article/3004120",
             "story": (
-                "AeraDomus is a housing-design framework for indoor air quality: airflow paths, "
-                "solar ventilation chimneys, materials that cut toxins, without assuming people "
-                "can buy expensive filters.\n\n"
-                "It clicked after I fainted one morning getting ready for school and could not "
-                "stop thinking about how rooms themselves shape health. Indoor air pollution "
-                "kills millions a year and hits lower-income housing hardest. A smoke test on "
-                "a small airflow model made the point: a lot of what we call health problems "
-                "are also design problems."
+                "The strange thing about fainting is that it does not warn you. One morning "
+                "before school I was getting ready, and then I was on the floor trying to "
+                "figure out what just happened. The most annoying part at the time was missing "
+                "a test. It felt random.\n\n"
+                "Afterward I could not stop thinking about how much the rooms we live in "
+                "affect our health. Indoor air pollution is tied to millions of premature "
+                "deaths every year, and it is worse in lower-income housing: poor ventilation, "
+                "materials that off-gas, solutions that cost more than the people most "
+                "affected can pay.\n\n"
+                "That is how AeraDomus started. It is a housing design framework for indoor "
+                "air quality that uses passive, low-cost architecture instead of expensive "
+                "filters: airflow patterns, solar-powered ventilation chimneys, materials that "
+                "hold fewer toxins. I built a small model and watched smoke move through "
+                "different paths. Healthy air vs. unhealthy air was a design decision, not a "
+                "gadget.\n\n"
+                "A lot of problems we file under health are also design problems. I want to "
+                "build systems people barely notice, because when they work, they just quietly "
+                "shape how you feel every day."
             ),
         },
         {
@@ -357,8 +396,12 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/selfcad.png",
             "href": "#",
             "story": (
-                "International 3D award at 13: Candyland built from scratch in SelfCAD with a "
-                "friend. Proof that nerdy and pretty can live in the same file."
+                "When I was 13, my friend and I built Candyland from scratch in SelfCAD and "
+                "won an international 3D award for it. No kit. Just the two of us trying to "
+                "make a world that looked like sugar and still held together as a model.\n\n"
+                "That win turned into a couple of years as a SelfCAD ambassador: tutorials, "
+                "community, teaching other people how to make weird little scenes on purpose. "
+                "It is still the project that made 3D feel like mine, not like an assignment."
             ),
         },
         {
@@ -368,9 +411,13 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/dreamyuni.png",
             "href": "#",
             "story": (
-                "Early-stage ops and HR at DreamyUni, working with Danny W. Chen so students "
-                "could actually get into their dream universities. I started in marketing there "
-                "and moved into people: recruiting, coordination, less chaos."
+                "At DreamyUni I worked with Danny W. Chen in the early stages, first in "
+                "marketing and then as HR director, helping students actually get into their "
+                "dream universities.\n\n"
+                "Marketing was how the project looked from the outside. HR was how it felt "
+                "from the inside: recruiting, coordination, keeping a young team from turning "
+                "into a group chat with extra steps. Same org. Different muscle. I liked both, "
+                "which is probably why I stayed long enough to do them back to back."
             ),
         },
         {
@@ -381,9 +428,14 @@ CONTENT = {
             "image_alt": "MakeCode for micro:bit project lambjam: Finch robot blocks, radio group 125, and two simulators for AUTOMAZER",
             "href": "#",
             "story": (
-                "AUTOMAZER, built at Ithaca TISA: a Finch robot plus micro:bit that reads a "
-                "maze, picks a path, and radios the moves to a second robot so it copies. "
-                "MakeCode project lambjam, radio group 125, scan then follow."
+                "AUTOMAZER is the robot I built at Ithaca TISA. A Finch plus a micro:bit "
+                "reads the space in front of it, figures out how to get through a maze, and "
+                "sends those moves over radio to a second robot so it takes the same path.\n\n"
+                "I programmed it in Microsoft MakeCode (project name lambjam) with radio group "
+                "125, distance thresholds, a 360 scan when the path is messy, then a pick for "
+                "the next turn. If it is too close, it backs out. If it is clear, it goes. "
+                "The point was never a pretty demo. It was whether two boards could agree on "
+                "a route without me standing there steering."
             ),
         },
     ],
