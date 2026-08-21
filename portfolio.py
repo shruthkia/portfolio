@@ -61,7 +61,7 @@ CONTENT = {
         "attr": "John A. Shedd",
     },
     "hero": {
-        "portrait": "/static/hero.jpg",
+        "portrait": "/static/about.jpg",
         "scrolling_words": ["KIA", "BUILDER"],
         "intro": (
             "I do a little bit of everything, designing, writing, organizing chaos, "
@@ -772,7 +772,7 @@ HOME_PAGE = r"""{% extends "base.html" %}
   <div class="hero-visual reveal-scale visible" data-delay="0.15">
     <div class="hero-circle" aria-hidden="true"></div>
     <div class="hero-portrait-wrap" data-tilt>
-      <img src="{{ hero.portrait }}" alt="{{ meta.name }} in a black blazer at a desk, looking up at the camera" width="800" height="1082" decoding="async">
+      <img src="{{ hero.portrait }}" alt="{{ meta.name }} in a black blazer at DFW Startup Week" width="800" height="1082" decoding="async">
       <span class="hero-badge">{{ meta.title }}</span>
     </div>
   </div>
@@ -1180,8 +1180,8 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
     <img class="sticker" src="/static/brain/clip.png" alt="" style="width:58px;top:18%;left:28%;transform:rotate(12deg);">
     <img class="sticker" src="/static/brain/notebook.png" alt="" style="width:72px;bottom:8%;left:8%;transform:rotate(8deg);">
     <img class="sticker" src="/static/brain/star.png" alt="" style="width:48px;top:28%;right:28%;transform:rotate(18deg);">
-    <figure class="polaroid sticker" style="top:22%;left:8%;width:148px;">
-      <img src="/static/casual-gallery.jpg" alt="{{ meta.name }} in a black blazer, photographed from above at a desk">
+    <figure class="polaroid sticker" style="top:18%;left:6%;width:168px;">
+      <img src="/static/brain/polaroid-me.jpg" alt="{{ meta.name }} at a desk, looking up at the camera">
     </figure>
     <div class="brain-about-row">
       <div>
@@ -1189,7 +1189,7 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
         <p class="brain-copy reveal">{{ brain.intro }}</p>
       </div>
       <div class="brain-photo-wrap reveal-scale">
-        <img class="brain-photo" src="/static/whoami-cutout.png" alt="{{ meta.name }} in a pink striped sweater, pink sunglasses, and patchwork jeans, crouched with her chin in her hand">
+        <img class="brain-photo" src="/static/brain/center.jpg" alt="{{ meta.name }} in a leopard-print dress, shrugging in a gallery">
         <img class="sticker fragile-tag" src="/static/brain/fragile.png" alt="">
       </div>
     </div>

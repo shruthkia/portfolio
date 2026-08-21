@@ -859,10 +859,10 @@ body:hover .cursor-glow { opacity: 1; }
 .brain-emoji { display: block; font-size: 2rem; margin-top: 0.35rem; }
 .brain-about-row {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 2rem;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 1.5rem;
   align-items: end;
-  margin-top: 3rem;
+  margin-top: 2.25rem;
   position: relative;
   z-index: 3;
 }
@@ -875,17 +875,20 @@ body:hover .cursor-glow { opacity: 1; }
 }
 .brain-photo-wrap {
   position: relative;
-  justify-self: end;
-  width: min(340px, 100%);
+  justify-self: center;
+  width: min(560px, 100%);
   background: #7edc4a;
   padding: 0.7rem 0.7rem 1.6rem;
-  transform: rotate(3deg);
+  transform: rotate(2deg);
   box-shadow: 10px 14px 0 rgba(26, 8, 16, 0.18);
 }
 .brain-photo {
   width: 100%;
   display: block;
   background: #7edc4a;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center top;
 }
 .brain-photo-wrap .sticker.fragile-tag {
   position: absolute; top: -18px; right: -22px; width: 108px;
@@ -893,12 +896,12 @@ body:hover .cursor-glow { opacity: 1; }
 }
 .polaroid {
   background: #fffaf2;
-  padding: 0.45rem 0.45rem 1.4rem;
+  padding: 0.45rem 0.45rem 1.6rem;
   box-shadow: 6px 10px 0 rgba(0,0,0,0.12);
   transform: rotate(-6deg);
-  width: 160px;
+  width: 176px;
 }
-.polaroid img { width: 100%; display: block; height: 150px; object-fit: cover; }
+.polaroid img { width: 100%; display: block; height: 190px; object-fit: cover; object-position: center top; }
 .sticker {
   position: absolute; object-fit: contain; user-select: none; pointer-events: none;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
