@@ -733,17 +733,17 @@ body:hover .cursor-glow { opacity: 1; }
 .whoami {
   --who-p: 0;
   position: relative;
-  min-height: 185vh;
+  min-height: 220vh;
   margin: 0 -1.5rem 1rem;
-  padding: 8vh 1.5rem 12vh;
+  padding: 18vh 1.5rem 18vh;
 }
 .whoami-sticky {
   position: sticky;
-  top: 18vh;
+  top: 16vh;
   display: grid;
   justify-items: center;
   text-align: center;
-  min-height: 64vh;
+  min-height: 68vh;
 }
 .whoami-title {
   font-family: var(--font-display);
@@ -755,12 +755,12 @@ body:hover .cursor-glow { opacity: 1; }
 }
 .whoami-title em { font-style: italic; color: var(--accent); }
 .whoami-cutout {
-  width: min(280px, 58vw);
+  width: min(300px, 62vw);
   height: auto;
   margin: 1.25rem 0 0.75rem;
   filter: drop-shadow(0 18px 28px rgba(40, 12, 24, 0.22));
-  opacity: clamp(0, calc((var(--who-p) - 0.12) * 4.2), 1);
-  transform: translateY(calc((1 - clamp(0, calc((var(--who-p) - 0.12) * 4.2), 1)) * 28px));
+  opacity: clamp(0, calc((var(--who-p) - 0.18) * 4.5), 1);
+  transform: translateY(calc((1 - clamp(0, calc((var(--who-p) - 0.18) * 4.5), 1)) * 36px)) rotate(-2deg);
   pointer-events: none;
 }
 .whoami-line {
@@ -774,12 +774,12 @@ body:hover .cursor-glow { opacity: 1; }
 .whoami-idk {
   font-size: clamp(16px, 2.4vw, 22px);
   color: var(--accent);
-  opacity: clamp(0, calc((var(--who-p) - 0.38) * 5), 1);
+  opacity: clamp(0, calc((var(--who-p) - 0.42) * 5), 1);
 }
 .whoami-sure {
   font-size: clamp(13px, 1.8vw, 16px);
   margin-top: 0.65rem;
-  opacity: clamp(0, calc((var(--who-p) - 0.62) * 5), 1);
+  opacity: clamp(0, calc((var(--who-p) - 0.68) * 5), 1);
 }
 @media (prefers-reduced-motion: reduce) {
   .whoami { min-height: auto; padding: 2rem 1.5rem 1rem; }
@@ -797,26 +797,40 @@ body:hover .cursor-glow { opacity: 1; }
 }
 .brain-band-inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 2; }
 .brain-grid-cream {
-  background-color: #f3eee4;
+  background-color: #f4efe6;
   background-image:
-    linear-gradient(rgba(110, 176, 204, 0.38) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(110, 176, 204, 0.38) 1px, transparent 1px);
-  background-size: 28px 28px;
+    url("/static/bg-grid-paper.jpg"),
+    linear-gradient(rgba(90, 168, 196, 0.42) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 168, 196, 0.42) 1px, transparent 1px);
+  background-size: 420px 420px, 28px 28px, 28px 28px;
+  background-blend-mode: multiply, normal, normal;
   color: #1b1518;
+}
+.brain-grid-cream::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 7rem;
+  background: linear-gradient(180deg, transparent, #f25d9a);
+  pointer-events: none; z-index: 1;
 }
 .brain-grid-pink {
   background-color: #f25d9a;
   background-image:
-    linear-gradient(rgba(120, 20, 60, 0.22) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 20, 60, 0.22) 1px, transparent 1px);
+    linear-gradient(rgba(70, 8, 36, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(70, 8, 36, 0.18) 1px, transparent 1px);
   background-size: 28px 28px;
-  color: #1b1518;
+  color: #1a0810;
+}
+.brain-grid-pink::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 6rem;
+  background: linear-gradient(180deg, transparent, #161218);
+  pointer-events: none; z-index: 1;
 }
 .brain-grid-dark {
   background-color: #161218;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+    linear-gradient(rgba(255, 90, 170, 0.34) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
   background-size: 28px 28px;
   color: #f7eef1;
 }
@@ -863,12 +877,28 @@ body:hover .cursor-glow { opacity: 1; }
   position: relative;
   justify-self: end;
   width: min(340px, 100%);
+  background: #7edc4a;
+  padding: 0.7rem 0.7rem 1.6rem;
+  transform: rotate(3deg);
+  box-shadow: 10px 14px 0 rgba(26, 8, 16, 0.18);
 }
 .brain-photo {
   width: 100%;
   display: block;
-  filter: drop-shadow(12px 18px 0 rgba(242, 93, 154, 0.45));
+  background: #7edc4a;
 }
+.brain-photo-wrap .sticker.fragile-tag {
+  position: absolute; top: -18px; right: -22px; width: 108px;
+  transform: rotate(12deg);
+}
+.polaroid {
+  background: #fffaf2;
+  padding: 0.45rem 0.45rem 1.4rem;
+  box-shadow: 6px 10px 0 rgba(0,0,0,0.12);
+  transform: rotate(-6deg);
+  width: 160px;
+}
+.polaroid img { width: 100%; display: block; height: 150px; object-fit: cover; }
 .sticker {
   position: absolute; object-fit: contain; user-select: none; pointer-events: none;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
@@ -876,31 +906,37 @@ body:hover .cursor-glow { opacity: 1; }
 }
 .brain-hustle-field {
   position: relative;
-  min-height: 420px;
+  min-height: 460px;
   margin-top: 1.5rem;
 }
 .hustle-float {
   position: absolute;
-  max-width: 220px;
+  max-width: 230px;
 }
+.hustle-float:nth-child(1) { transform: rotate(-4deg); }
+.hustle-float:nth-child(2) { transform: rotate(3deg); }
+.hustle-float:nth-child(3) { transform: rotate(-2deg); }
 .hustle-float img {
-  width: 96px; height: 96px; object-fit: contain;
+  width: 110px; height: 110px; object-fit: contain;
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.16));
 }
 .hustle-float p {
   font-family: var(--font-mono);
-  font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
   line-height: 1.45; margin-top: 0.45rem;
-  background: rgba(255,255,255,0.28);
-  padding: 0.45rem 0.5rem;
+  background: rgba(255, 246, 250, 0.88);
+  color: #1a0810;
+  padding: 0.5rem 0.55rem;
+  box-shadow: 3px 4px 0 rgba(26, 8, 16, 0.12);
 }
 .brain-note {
   margin-top: 1.25rem;
   font-family: var(--font-mono);
-  font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
   max-width: 40rem; line-height: 1.5;
+  position: relative; z-index: 3;
 }
-.brain-grid-pink .brain-note { color: #3a1020; }
+.brain-grid-pink .brain-note { color: #1a0810; font-weight: 600; }
 .brain-fix-list {
   list-style: none; margin-top: 1.1rem;
   font-family: var(--font-mono);
@@ -928,10 +964,15 @@ body:hover .cursor-glow { opacity: 1; }
   font-family: var(--font-mono);
   font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
   line-height: 1.5;
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 0.9rem;
+  background: #f6efe2;
+  color: #1b1518;
+  padding: 0.95rem;
+  transform: rotate(-1.5deg);
+  box-shadow: 5px 7px 0 rgba(0,0,0,0.22);
 }
-.dump-card strong { display: block; color: #f7b8cc; margin-bottom: 0.35rem; font-weight: 600; }
+.dump-card:nth-child(2) { transform: rotate(2.2deg); }
+.dump-card:nth-child(3) { transform: rotate(-3deg); grid-column: 1 / -1; max-width: 70%; }
+.dump-card strong { display: block; color: #9a2f58; margin-bottom: 0.35rem; font-weight: 600; }
 .sticky-note {
   background: #f6e27a; color: #1b1518;
   padding: 1.1rem 1.15rem; border-radius: 2px;
@@ -949,6 +990,8 @@ body:hover .cursor-glow { opacity: 1; }
   .brain-photo-wrap { justify-self: center; }
   .brain-hustle-field { min-height: 0; display: grid; gap: 1.25rem; }
   .hustle-float { position: relative; top: auto !important; left: auto !important; right: auto !important; }
+  .dump-card:nth-child(3) { max-width: 100%; }
+  .polaroid { position: relative !important; top: auto !important; left: auto !important; margin: 1rem auto 0; }
 }
 
 @media (max-width: 960px) {

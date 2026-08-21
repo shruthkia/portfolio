@@ -348,6 +348,7 @@ CONTENT = {
             "title": "FCCLA Nationals",
             "category": "national champion + silver medal",
             "image": f"{STATIC_PROJECTS}/fccla-nats.jpg",
+            "image_alt": "Four Lebanon Trail FCCLA members in red blazers under the 2026 National Leadership Conference welcome arch",
             "href": "https://starlocalmedia.com/friscoenterprise/news/frisco-isd-students-earn-medals-at-fccla-nationals/article_54aa6c9e-50a1-47a8-b710-5dcd8dca20c9.html",
             "story": (
                 "At the FCCLA National Leadership Conference in Washington, D.C., I was named "
@@ -415,6 +416,7 @@ CONTENT = {
             "title": "micro:bit AUTOMAZER",
             "category": "Ithaca TISA / Finch + micro:bit",
             "image": f"{STATIC_PROJECTS}/microbit-automazer.jpg",
+            "image_alt": "MakeCode for micro:bit project lambjam: Finch robot blocks, radio group 125, and two simulators for AUTOMAZER",
             "href": "#",
             "story": (
                 "As part of Ithaca TISA I made a robot that used a micro:bit to analyze its "
@@ -790,7 +792,7 @@ HOME_PAGE = r"""{% extends "base.html" %}
   <a href="{{ p.card_href }}" class="project-card reveal" data-delay="{{ loop.index0 * 0.08 }}"{% if p.card_external %} target="_blank" rel="noopener noreferrer"{% endif %}>
     <div class="project-card-inner">
       <div class="project-image-wrap">
-        <img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy">
+        <img src="{{ p.image }}" alt="{{ p.get('image_alt') or p.title }}" loading="lazy">
         <span class="project-arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg></span>
         <div class="project-meta">
           <h3 class="project-title">{{ p.title }}</h3>
@@ -833,7 +835,7 @@ WORK_PAGE = r"""{% extends "base.html" %}
   <a href="{{ p.card_href }}" class="project-card reveal" data-delay="{{ loop.index0 * 0.06 }}"{% if p.card_external %} target="_blank" rel="noopener noreferrer"{% endif %}>
     <div class="project-card-inner">
       <div class="project-image-wrap">
-        <img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy">
+        <img src="{{ p.image }}" alt="{{ p.get('image_alt') or p.title }}" loading="lazy">
         <span class="project-arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg></span>
         <div class="project-meta">
           <h3 class="project-title">{{ p.title }}</h3>
@@ -853,7 +855,7 @@ PROJECT_PAGE = r"""{% extends "base.html" %}
   <p class="about-location">{{ project.category }}</p>
   <h1 class="page-title">{{ project.title }}</h1>
   <div class="project-story-hero reveal visible">
-    <img src="{{ project.image }}" alt="{{ project.title }}" loading="lazy">
+    <img src="{{ project.image }}" alt="{{ project.get('image_alt') or project.title }}" loading="lazy">
   </div>
   <div class="blog-body">
     {% for para in project.story_paragraphs %}
@@ -874,7 +876,7 @@ ABOUT_PAGE = r"""{% extends "base.html" %}
 {% block content %}
 <div class="about-hero">
   <div class="about-photo reveal-scale visible" data-tilt>
-    <img src="{{ about.portrait }}" alt="{{ meta.name }} in a black blazer, photographed from above at a desk" width="800" height="1082" decoding="async">
+    <img src="{{ about.portrait }}" alt="{{ meta.name }} in a black blazer at DFW Startup Week, Capital One backdrop with a disco-ball cowboy" width="380" height="1466" decoding="async">
     <span class="about-photo-label">{{ meta.title }}</span>
   </div>
   <div>
@@ -1159,7 +1161,7 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
   <div class="brain-band-inner">
     <div class="brain-hero-top">
       <p class="brain-kicker reveal">{{ brain.kicker }}</p>
-      <h1 class="brain-title reveal">welcome to my <em>braindump</em><span class="brain-emoji" aria-hidden="true">🧠</span></h1>
+      <h1 class="brain-title reveal">welcome to my <em>brain</em><span class="brain-emoji" aria-hidden="true">🧠</span></h1>
     </div>
     <img class="sticker" src="/static/brain/shell.png" alt="" style="width:86px;top:6%;left:42%;transform:rotate(-14deg);">
     <img class="sticker" src="/static/brain/apple.png" alt="" style="width:68px;top:10%;right:8%;transform:rotate(10deg);">
@@ -1167,6 +1169,10 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
     <img class="sticker" src="/static/brain/keys.png" alt="" style="width:108px;top:48%;right:6%;transform:rotate(-16deg);">
     <img class="sticker" src="/static/brain/clip.png" alt="" style="width:58px;top:18%;left:28%;transform:rotate(12deg);">
     <img class="sticker" src="/static/brain/notebook.png" alt="" style="width:72px;bottom:8%;left:8%;transform:rotate(8deg);">
+    <img class="sticker" src="/static/brain/star.png" alt="" style="width:48px;top:28%;right:28%;transform:rotate(18deg);">
+    <figure class="polaroid sticker" style="top:22%;left:8%;width:148px;">
+      <img src="/static/casual-gallery.jpg" alt="{{ meta.name }} in a black blazer, photographed from above at a desk">
+    </figure>
     <div class="brain-about-row">
       <div>
         <h2 class="brain-title reveal" style="font-size:clamp(28px,5vw,52px);margin-bottom:0.85rem;">about <em>me</em> 😼</h2>
@@ -1174,6 +1180,7 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
       </div>
       <div class="brain-photo-wrap reveal-scale">
         <img class="brain-photo" src="/static/whoami-cutout.png" alt="{{ meta.name }} in a pink striped sweater, pink sunglasses, and patchwork jeans, crouched with her chin in her hand">
+        <img class="sticker fragile-tag" src="/static/brain/fragile.png" alt="">
       </div>
     </div>
   </div>
@@ -1192,12 +1199,13 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
         <p>Helping people make things look and feel better</p>
       </article>
       <article class="hustle-float reveal" style="top:6%;right:2%;">
-        <img src="/static/brain/polaroid.jpg" alt="polaroid of a quiet street">
+        <img src="/static/brain/polaroid.jpg" alt="tiny polaroid of a quiet street">
         <p>Saying yes, then learning how to do the thing</p>
       </article>
       <img class="sticker" src="/static/brain/receipt.png" alt="" style="width:70px;bottom:12%;left:22%;transform:rotate(8deg);">
       <img class="sticker" src="/static/brain/star.png" alt="" style="width:52px;bottom:18%;right:28%;">
       <img class="sticker" src="/static/brain/coffee.png" alt="" style="width:88px;bottom:4%;right:8%;transform:rotate(-8deg);">
+      <img class="sticker" src="/static/brain/dog.png" alt="" style="width:92px;top:52%;left:52%;transform:rotate(8deg);">
     </div>
     <p class="brain-note">{{ brain.hustles_note }}</p>
   </div>
@@ -1206,7 +1214,7 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
 <section class="brain-band brain-grid-dark">
   <div class="brain-band-inner brain-dark-layout">
     <div>
-      <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">hyper-<em>fixations</em></h2>
+      <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">hyper-<em>fixations</em> 😜</h2>
       <ul class="brain-fix-list">
         {% for item in brain.fixations %}
         <li>{{ item }}</li>
@@ -1227,6 +1235,7 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
       <img class="sticker" src="/static/brain/earbuds.png" alt="" style="width:150px;top:0;right:4%;transform:rotate(12deg);">
       <img class="sticker" src="/static/brain/dog.png" alt="" style="width:128px;top:38%;left:0;">
       <img class="sticker" src="/static/brain/apple.png" alt="" style="width:70px;bottom:22%;right:10%;transform:rotate(-18deg);">
+      <img class="sticker" src="/static/brain/keys.png" alt="" style="width:92px;bottom:4%;left:18%;transform:rotate(14deg);">
       <aside class="sticky-note reveal" style="position:relative;margin-top:12rem;">
         <p>“{{ quote.text }}”</p>
         <cite>{{ quote.attr }}</cite>

@@ -65,11 +65,20 @@ def test_routes() -> None:
     assert "full of love, hustle" in home
     brain = client.get("/brain").get_data(as_text=True)
     assert "BRAINDUMP" in brain
-    assert "my <em>braindump</em>" in brain or "braindump" in brain.lower()
+    assert "welcome to my" in brain
+    assert "my braindump" in brain.lower()
+    assert "/static/whoami-cutout.png" in brain
+    assert "/static/casual-gallery.jpg" in brain
     work = client.get("/work/microbit-automizer").get_data(as_text=True)
     assert "AUTOMAZER" in work
+    assert "lambjam" in client.get("/work").get_data(as_text=True) or "Finch" in work
+    nats = client.get("/work/fccla-nats").get_data(as_text=True)
+    assert "fccla-nats.jpg" in nats
+    assert "National Leadership Conference" in nats or "welcome arch" in nats
     about = client.get("/about").get_data(as_text=True)
     assert "Mahatma" not in about
+    assert "DFW Startup Week" in about
+    assert "/static/about.jpg" in about
 
 
 def test_compose_and_restart_persistence() -> None:
