@@ -751,12 +751,12 @@ HOME_PAGE = r"""{% extends "base.html" %}
     <img
       class="whoami-cutout"
       src="/static/whoami-cutout.png"
-      width="320"
-      height="553"
-      alt="{{ meta.name }} in a pink striped sweater and pink sunglasses, crouched with her chin in her hand"
+      width="766"
+      height="900"
+      alt="{{ meta.name }} in a leopard-print dress, shrugging with a pink camera"
     >
     <p class="whoami-line whoami-idk">i don't know..</p>
-    <p class="whoami-line whoami-sure">but one thing for sure is i'm full of love, hustle</p>
+    <p class="whoami-line whoami-sure">but one thing for sure is i look like i know. please don't quiz me</p>
   </div>
 </section>
 
@@ -1172,25 +1172,26 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
     <div class="brain-hero-top">
       <p class="brain-kicker reveal">{{ brain.kicker }}</p>
       <h1 class="brain-title reveal">welcome to my <em>brain</em><span class="brain-emoji" aria-hidden="true">🧠</span></h1>
+      <figure class="polaroid reveal">
+        <img src="/static/brain/polaroid-me.jpg" alt="{{ meta.name }} at a desk, looking up at the camera">
+      </figure>
     </div>
-    <img class="sticker" src="/static/brain/shell.png" alt="" style="width:86px;top:6%;left:42%;transform:rotate(-14deg);">
-    <img class="sticker" src="/static/brain/apple.png" alt="" style="width:68px;top:10%;right:8%;transform:rotate(10deg);">
-    <img class="sticker" src="/static/brain/banana.png" alt="" style="width:100px;top:38%;left:2%;transform:rotate(-22deg);">
-    <img class="sticker" src="/static/brain/keys.png" alt="" style="width:108px;top:48%;right:6%;transform:rotate(-16deg);">
-    <img class="sticker" src="/static/brain/clip.png" alt="" style="width:58px;top:18%;left:28%;transform:rotate(12deg);">
-    <img class="sticker" src="/static/brain/notebook.png" alt="" style="width:72px;bottom:8%;left:8%;transform:rotate(8deg);">
-    <img class="sticker" src="/static/brain/star.png" alt="" style="width:48px;top:28%;right:28%;transform:rotate(18deg);">
-    <figure class="polaroid sticker" style="top:18%;left:6%;width:168px;">
-      <img src="/static/brain/polaroid-me.jpg" alt="{{ meta.name }} at a desk, looking up at the camera">
-    </figure>
     <div class="brain-about-row">
-      <div>
+      <div class="brain-text">
         <h2 class="brain-title reveal" style="font-size:clamp(28px,5vw,52px);margin-bottom:0.85rem;">about <em>me</em> 😼</h2>
         <p class="brain-copy reveal">{{ brain.intro }}</p>
       </div>
       <div class="brain-photo-wrap reveal-scale">
         <img class="brain-photo" src="/static/brain/center.jpg" alt="{{ meta.name }} in a leopard-print dress, shrugging in a gallery">
-        <img class="sticker fragile-tag" src="/static/brain/fragile.png" alt="">
+        <div class="brain-photo-decos" aria-hidden="true">
+          <img class="sticker sticker-shell" src="/static/brain/shell.png" alt="">
+          <img class="sticker sticker-apple" src="/static/brain/apple.png" alt="">
+          <img class="sticker sticker-banana" src="/static/brain/banana.png" alt="">
+          <img class="sticker sticker-keys" src="/static/brain/keys.png" alt="">
+          <img class="sticker sticker-clip" src="/static/brain/clip.png" alt="">
+          <img class="sticker sticker-notebook" src="/static/brain/notebook.png" alt="">
+          <img class="sticker sticker-star" src="/static/brain/star.png" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -1200,22 +1201,18 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
   <div class="brain-band-inner">
     <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">the <em>side hustles</em> 🔥</h2>
     <div class="brain-hustle-field">
-      <article class="hustle-float reveal" style="top:8%;left:2%;">
-        <img src="/static/brain/cat.png" alt="stretching black cat sticker">
-        <p>Random projects that started as purely “for fun”</p>
+      {% for h in brain.hustles %}
+      <article class="hustle-float reveal" data-delay="{{ loop.index0 * 0.06 }}">
+        <img src="{{ h.img }}" alt="{{ h.alt }}">
+        <p>{{ h.text }}</p>
       </article>
-      <article class="hustle-float reveal" style="top:18%;left:38%;">
-        <img src="/static/brain/cd.png" alt="holographic CD sticker">
-        <p>Helping people make things look and feel better</p>
-      </article>
-      <article class="hustle-float reveal" style="top:6%;right:2%;">
-        <img src="/static/brain/polaroid.jpg" alt="tiny polaroid of a quiet street">
-        <p>Saying yes, then learning how to do the thing</p>
-      </article>
-      <img class="sticker" src="/static/brain/receipt.png" alt="" style="width:70px;bottom:12%;left:22%;transform:rotate(8deg);">
-      <img class="sticker" src="/static/brain/star.png" alt="" style="width:52px;bottom:18%;right:28%;">
-      <img class="sticker" src="/static/brain/coffee.png" alt="" style="width:88px;bottom:4%;right:8%;transform:rotate(-8deg);">
-      <img class="sticker" src="/static/brain/dog.png" alt="" style="width:92px;top:52%;left:52%;transform:rotate(8deg);">
+      {% endfor %}
+    </div>
+    <div class="brain-deco-row" aria-hidden="true">
+      <img class="sticker" src="/static/brain/receipt.png" alt="" style="width:64px;transform:rotate(8deg);">
+      <img class="sticker" src="/static/brain/star.png" alt="" style="width:46px;transform:rotate(-12deg);">
+      <img class="sticker" src="/static/brain/coffee.png" alt="" style="width:78px;transform:rotate(-8deg);">
+      <img class="sticker" src="/static/brain/dog.png" alt="" style="width:82px;transform:rotate(8deg);">
     </div>
     <p class="brain-note">{{ brain.hustles_note }}</p>
   </div>
@@ -1223,7 +1220,7 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
 
 <section class="brain-band brain-grid-dark">
   <div class="brain-band-inner brain-dark-layout">
-    <div>
+    <div class="brain-text">
       <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">hyper-<em>fixations</em> 😜</h2>
       <ul class="brain-fix-list">
         {% for item in brain.fixations %}
@@ -1241,12 +1238,14 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
         {% endfor %}
       </div>
     </div>
-    <div style="position:relative;min-height:280px;">
-      <img class="sticker" src="/static/brain/earbuds.png" alt="" style="width:150px;top:0;right:4%;transform:rotate(12deg);">
-      <img class="sticker" src="/static/brain/dog.png" alt="" style="width:128px;top:38%;left:0;">
-      <img class="sticker" src="/static/brain/apple.png" alt="" style="width:70px;bottom:22%;right:10%;transform:rotate(-18deg);">
-      <img class="sticker" src="/static/brain/keys.png" alt="" style="width:92px;bottom:4%;left:18%;transform:rotate(14deg);">
-      <aside class="sticky-note reveal" style="position:relative;margin-top:12rem;">
+    <div class="brain-dark-deco">
+      <div class="brain-deco-row brain-deco-row-dark" aria-hidden="true">
+        <img class="sticker" src="/static/brain/earbuds.png" alt="" style="width:132px;transform:rotate(12deg);">
+        <img class="sticker" src="/static/brain/dog.png" alt="" style="width:110px;">
+        <img class="sticker" src="/static/brain/apple.png" alt="" style="width:64px;transform:rotate(-18deg);">
+        <img class="sticker" src="/static/brain/keys.png" alt="" style="width:88px;transform:rotate(14deg);">
+      </div>
+      <aside class="sticky-note reveal">
         <p>“{{ quote.text }}”</p>
         <cite>{{ quote.attr }}</cite>
       </aside>

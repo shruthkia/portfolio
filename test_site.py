@@ -62,13 +62,18 @@ def test_routes() -> None:
     home = client.get("/").get_data(as_text=True)
     assert "who am" in home
     assert "i don't know" in home
-    assert "full of love, hustle" in home
+    assert "please don't quiz me" in home
+    assert "full of love, hustle" not in home
     brain = client.get("/brain").get_data(as_text=True)
     assert "BRAINDUMP" in brain
     assert "welcome to my" in brain
     assert "my braindump" in brain.lower()
     assert "/static/brain/center.jpg" in brain
     assert "/static/brain/polaroid-me.jpg" in brain
+    assert "fragile" not in brain.lower()
+    assert "fragile.png" not in brain
+    assert "brain-deco-row" in brain
+    assert "brain-photo-decos" in brain
     work = client.get("/work/microbit-automizer").get_data(as_text=True)
     assert "AUTOMAZER" in work
     assert "lambjam" in client.get("/work").get_data(as_text=True) or "Finch" in work
