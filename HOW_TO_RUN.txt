@@ -12,7 +12,7 @@ Files:
   blogs.json        life blog posts (written next to the app by default)
   messages.json     contact form submissions (auto-created)
   requirements.txt  Python dependencies
-  static/           images (projects/, hero.jpg, about.jpg)
+  static/           images. Replace portraits using names in static/projects/README.txt
 
 Optional env vars:
   COMPOSE_PASSWORD  blog compose page password (default: kia-compose-2026)
