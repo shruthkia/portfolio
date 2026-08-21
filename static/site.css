@@ -792,10 +792,16 @@ body:hover .cursor-glow { opacity: 1; }
 .brain-collage { position: relative; overflow: hidden; }
 .brain-band {
   position: relative;
-  padding: clamp(2rem, 6vw, 4.5rem) 1.5rem clamp(3rem, 8vw, 5.5rem);
+  padding: clamp(2.4rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem) clamp(3.6rem, 8vw, 6.5rem);
   overflow: hidden;
 }
 .brain-band-inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 2; }
+.brain-scatter {
+  position: absolute;
+  inset: -1.25rem -2.8rem;
+  pointer-events: none;
+  z-index: 4;
+}
 .brain-grid-cream {
   background-color: #f4efe6;
   background-image:
@@ -881,7 +887,6 @@ body:hover .cursor-glow { opacity: 1; }
   align-items: end;
   margin-top: 2.5rem;
   position: relative;
-  z-index: 3;
 }
 .brain-copy {
   font-family: var(--font-mono);
@@ -908,14 +913,6 @@ body:hover .cursor-glow { opacity: 1; }
   object-fit: contain;
   object-position: center center;
 }
-.brain-photo-decos { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
-.brain-photo-wrap .sticker-shell { width: 78px; top: -22px; right: 28%; transform: rotate(-14deg); }
-.brain-photo-wrap .sticker-apple { width: 58px; top: -18px; right: -8px; transform: rotate(10deg); }
-.brain-photo-wrap .sticker-star { width: 42px; top: 14%; right: 10%; transform: rotate(18deg); }
-.brain-photo-wrap .sticker-clip { width: 48px; top: 8%; left: 8%; transform: rotate(12deg); }
-.brain-photo-wrap .sticker-keys { width: 92px; top: 46%; right: -22px; transform: rotate(-16deg); }
-.brain-photo-wrap .sticker-banana { width: 88px; bottom: 8%; right: -18px; transform: rotate(-22deg); }
-.brain-photo-wrap .sticker-notebook { width: 64px; bottom: -6px; right: 22%; transform: rotate(8deg); }
 .polaroid {
   background: #fffaf2;
   padding: 0.45rem 0.45rem 1.6rem;
@@ -929,17 +926,25 @@ body:hover .cursor-glow { opacity: 1; }
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
   z-index: 1;
 }
+.brain-grid-cream .s-shell { width: 82px; top: -0.35rem; left: -1.7rem; transform: rotate(-16deg); }
+.brain-grid-cream .s-clip { width: 50px; top: 27%; left: -1.35rem; transform: rotate(16deg); }
+.brain-grid-cream .s-star { width: 46px; top: 21%; left: 12%; transform: rotate(22deg); }
+.brain-grid-cream .s-apple { width: 56px; top: 1.5%; right: -1.9rem; transform: rotate(11deg); }
+.brain-grid-cream .s-banana { width: 96px; bottom: 14%; left: -2.1rem; transform: rotate(-24deg); }
+.brain-grid-cream .s-notebook { width: 62px; bottom: -0.55rem; right: 26%; left: auto; transform: rotate(9deg); }
+.brain-grid-cream .s-keys { width: 104px; bottom: 18%; right: -2.3rem; transform: rotate(-18deg); }
 .brain-hustle-field {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem 1.25rem;
+  gap: 1.75rem 1.4rem;
   align-items: start;
-  margin-top: 1.5rem;
+  margin-top: 2.1rem;
+  min-height: 16rem;
 }
 .hustle-float { max-width: 230px; }
-.hustle-float:nth-child(1) { transform: rotate(-4deg); justify-self: start; }
-.hustle-float:nth-child(2) { transform: rotate(3deg); justify-self: center; margin-top: 1.25rem; }
-.hustle-float:nth-child(3) { transform: rotate(-2deg); justify-self: end; }
+.hustle-float:nth-child(1) { transform: rotate(-6deg); justify-self: start; margin-left: 0.4rem; }
+.hustle-float:nth-child(2) { transform: rotate(4deg); justify-self: center; margin-top: 2.4rem; }
+.hustle-float:nth-child(3) { transform: rotate(-3deg); justify-self: end; margin-top: 0.35rem; margin-right: 0.6rem; }
 .hustle-float img {
   width: 110px; height: 110px; object-fit: contain;
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.16));
@@ -953,21 +958,11 @@ body:hover .cursor-glow { opacity: 1; }
   padding: 0.5rem 0.55rem;
   box-shadow: 3px 4px 0 rgba(26, 8, 16, 0.12);
 }
-.brain-deco-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.65rem 1.1rem;
-  margin: 1.35rem 0 0.15rem;
-  pointer-events: none;
-}
-.brain-deco-row .sticker {
-  position: relative;
-  top: auto; right: auto; bottom: auto; left: auto;
-  z-index: 1;
-}
-.brain-deco-row-dark { margin: 0 0 1rem; }
+.brain-grid-pink .s-star { width: 52px; top: -0.15rem; right: -0.4rem; transform: rotate(-14deg); }
+.brain-grid-pink .s-notebook { width: 58px; top: 31%; left: -1.7rem; transform: rotate(12deg); }
+.brain-grid-pink .s-receipt { width: 68px; top: 58%; left: 6%; transform: rotate(10deg); }
+.brain-grid-pink .s-dog { width: 96px; top: 46%; right: 18%; transform: rotate(8deg); }
+.brain-grid-pink .s-coffee { width: 86px; bottom: -0.45rem; right: -1.3rem; transform: rotate(-12deg); }
 .brain-note {
   margin-top: 1.25rem;
   font-family: var(--font-mono);
@@ -995,14 +990,22 @@ body:hover .cursor-glow { opacity: 1; }
 .brain-dark-deco {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 1.15rem;
   min-width: 0;
+  min-height: 22rem;
+  padding-top: 4.5rem;
 }
+.brain-grid-dark .s-earbuds { width: 138px; top: -0.5rem; right: -1.5rem; transform: rotate(14deg); }
+.brain-grid-dark .s-dog { width: 118px; top: 28%; right: 3%; transform: rotate(-6deg); }
+.brain-grid-dark .s-apple { width: 62px; bottom: 18%; right: -1rem; transform: rotate(-20deg); }
+.brain-grid-dark .s-keys { width: 96px; bottom: -0.55rem; left: 46%; transform: rotate(16deg); }
+.brain-grid-dark .s-shell { width: 78px; top: 40%; left: -1.9rem; transform: rotate(-12deg); }
+.brain-grid-dark .s-clip { width: 48px; bottom: 32%; right: 36%; transform: rotate(18deg); }
 .brain-dumps {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.15rem 1rem;
   margin-top: 1.5rem;
 }
 .dump-card {
@@ -1015,8 +1018,9 @@ body:hover .cursor-glow { opacity: 1; }
   transform: rotate(-1.5deg);
   box-shadow: 5px 7px 0 rgba(0,0,0,0.22);
 }
-.dump-card:nth-child(2) { transform: rotate(2.2deg); }
-.dump-card:nth-child(3) { transform: rotate(-3deg); grid-column: 1 / -1; max-width: 70%; }
+.dump-card:nth-child(1) { margin-top: 0.35rem; }
+.dump-card:nth-child(2) { transform: rotate(2.6deg); margin-top: 1.15rem; }
+.dump-card:nth-child(3) { transform: rotate(-3deg); grid-column: 1 / -1; max-width: 68%; margin-left: 8%; }
 .dump-card strong { display: block; color: #9a2f58; margin-bottom: 0.35rem; font-weight: 600; }
 .sticky-note {
   background: #f6e27a; color: #1b1518;
@@ -1044,24 +1048,46 @@ body:hover .cursor-glow { opacity: 1; }
   .brain-about-row, .brain-dark-layout, .brain-dumps { grid-template-columns: 1fr; }
   .brain-photo-wrap {
     justify-self: center;
-    overflow: hidden;
     margin-top: 0.5rem;
   }
-  .brain-photo-wrap .sticker-keys,
-  .brain-photo-wrap .sticker-banana,
-  .brain-photo-wrap .sticker-apple { right: 6px; }
-  .brain-hustle-field { grid-template-columns: 1fr; gap: 1.25rem; }
+  .brain-hustle-field { grid-template-columns: 1fr; gap: 1.25rem; min-height: 0; }
   .hustle-float,
   .hustle-float:nth-child(1),
   .hustle-float:nth-child(2),
   .hustle-float:nth-child(3) {
     justify-self: center;
     margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
     max-width: 20rem;
   }
-  .dump-card:nth-child(3) { max-width: 100%; }
-  .brain-deco-row { margin-top: 1rem; }
-  .brain-dark-deco { margin-top: 0.5rem; }
+  .dump-card:nth-child(1),
+  .dump-card:nth-child(2) { margin-top: 0; }
+  .dump-card:nth-child(3) { max-width: 100%; margin-left: 0; }
+  .brain-dark-deco {
+    margin-top: 0.5rem;
+    min-height: 0;
+    padding-top: 0;
+    align-items: center;
+  }
+  .brain-grid-cream .s-star,
+  .brain-grid-cream .s-keys,
+  .brain-grid-pink .s-notebook,
+  .brain-grid-pink .s-dog,
+  .brain-grid-dark .s-shell,
+  .brain-grid-dark .s-clip { display: none; }
+  .brain-grid-cream .s-shell { width: 58px; top: 0.45rem; left: 0.35rem; }
+  .brain-grid-cream .s-clip { width: 40px; top: auto; bottom: 36%; left: auto; right: 0.3rem; }
+  .brain-grid-cream .s-apple { width: 44px; top: 0.7rem; right: 0.4rem; }
+  .brain-grid-cream .s-banana { width: 72px; bottom: 0.6rem; left: 0.25rem; }
+  .brain-grid-cream .s-notebook { width: 48px; bottom: 0.5rem; left: auto; right: 12%; }
+  .brain-grid-pink .s-star { width: 40px; top: 0.5rem; right: 0.45rem; }
+  .brain-grid-pink .s-receipt { width: 52px; bottom: auto; top: 38%; left: 0.3rem; }
+  .brain-grid-pink .s-coffee { width: 64px; bottom: 0.45rem; right: 0.35rem; }
+  .brain-grid-dark .s-earbuds { width: 92px; top: 0.4rem; right: 0.3rem; }
+  .brain-grid-dark .s-dog { width: 78px; top: auto; bottom: 22%; right: 0.4rem; }
+  .brain-grid-dark .s-apple { width: 46px; bottom: 0.5rem; right: auto; left: 0.4rem; }
+  .brain-grid-dark .s-keys { width: 70px; bottom: 0.35rem; left: auto; right: 10%; }
 }
 
 @media (max-width: 960px) {
