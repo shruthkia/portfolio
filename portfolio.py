@@ -751,12 +751,12 @@ HOME_PAGE = r"""{% extends "base.html" %}
     <img
       class="whoami-cutout"
       src="/static/whoami-cutout.png"
-      width="320"
-      height="553"
-      alt="{{ meta.name }} in a pink striped sweater and pink sunglasses, crouched with her chin in her hand"
+      width="766"
+      height="900"
+      alt="{{ meta.name }} in a leopard-print dress, shrugging with a pink camera"
     >
     <p class="whoami-line whoami-idk">i don't know..</p>
-    <p class="whoami-line whoami-sure">but one thing for sure is i'm full of love, hustle</p>
+    <p class="whoami-line whoami-sure">but one thing for sure is i look like i know. please don't quiz me</p>
   </div>
 </section>
 

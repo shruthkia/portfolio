@@ -62,7 +62,8 @@ def test_routes() -> None:
     home = client.get("/").get_data(as_text=True)
     assert "who am" in home
     assert "i don't know" in home
-    assert "full of love, hustle" in home
+    assert "please don't quiz me" in home
+    assert "full of love, hustle" not in home
     brain = client.get("/brain").get_data(as_text=True)
     assert "BRAINDUMP" in brain
     assert "welcome to my" in brain
