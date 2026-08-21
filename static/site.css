@@ -877,7 +877,7 @@ body:hover .cursor-glow { opacity: 1; }
   position: relative;
   justify-self: center;
   width: min(560px, 100%);
-  background: #7edc4a;
+  background: #ffffff;
   padding: 0.7rem 0.7rem 1.6rem;
   transform: rotate(2deg);
   box-shadow: 10px 14px 0 rgba(26, 8, 16, 0.18);
@@ -885,10 +885,10 @@ body:hover .cursor-glow { opacity: 1; }
 .brain-photo {
   width: 100%;
   display: block;
-  background: #7edc4a;
+  background: #ffffff;
   aspect-ratio: 3/4;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center center;
 }
 .brain-photo-wrap .sticker.fragile-tag {
   position: absolute; top: -18px; right: -22px; width: 108px;
