@@ -1085,7 +1085,9 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
   <div class="brain-stickers" aria-hidden="true">
     <img class="sticker" src="/static/brain/shell.png" alt="" style="width:88px;top:8%;left:4%;transform:rotate(-12deg);">
     <img class="sticker" src="/static/brain/apple.png" alt="" style="width:70px;top:12%;right:8%;transform:rotate(8deg);">
+    <img class="sticker" src="/static/brain/banana.png" alt="" style="width:96px;top:58%;left:2%;transform:rotate(-20deg);">
     <img class="sticker" src="/static/brain/keys.png" alt="" style="width:110px;top:42%;right:3%;transform:rotate(-18deg);">
+    <img class="sticker" src="/static/brain/receipt.png" alt="" style="width:64px;bottom:6%;right:18%;transform:rotate(6deg);">
     <img class="sticker" src="/static/brain/star.png" alt="" style="width:56px;bottom:12%;left:12%;">
   </div>
   <p class="brain-kicker reveal">{{ brain.kicker }}</p>
