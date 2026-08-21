@@ -11,7 +11,7 @@ Photo slots (overwrite these files, keep the names):
 
   static/projects/fccla-nationals.jpg
   static/projects/microbit-automazer.jpg   MakeCode AUTOMAZER screenshot
-  static/whoami-cutout.png      optional: transparent shrug cutout for home "who am i"
+  static/whoami-cutout.png      leopard-print shrug cutout for home "who am i"
 
 JPG or PNG is fine if you keep the filename + extension above. Restart the site after replacing.
 
