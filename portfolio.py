@@ -121,8 +121,8 @@ CONTENT = {
             "French (Elementary)",
         ],
         "awards": [
-            "FCCLA National Champion & Gold Medalist, School to Career Challenge Test Level 2 (NATS, Washington D.C.)",
-            "FCCLA Silver Medal Finalist, Sustainability Challenge Level 2 (NATS)",
+            "FCCLA National Champion & Gold Medalist, School to Career Challenge Test Level 2 (Nationals, Washington D.C.)",
+            "FCCLA Silver Medal Finalist, Sustainability Challenge Level 2 (Nationals)",
             "Featured in Frisco Enterprise / Star Local Media for FCCLA nationals medals",
             "UNA USA Ambassador 2025-26, United Nations Association USA",
             "Scouted by 1517 Fund, Danielle Strachman",
@@ -346,20 +346,20 @@ CONTENT = {
             ),
         },
         {
-            "slug": "fccla-nats",
+            "slug": "fccla-nationals",
             "title": "FCCLA Nationals",
             "category": "national champion + silver medal",
-            "image": f"{STATIC_PROJECTS}/fccla-nats.jpg",
-            "image_alt": "Four Lebanon Trail FCCLA members in red blazers under the 2026 National Leadership Conference welcome arch",
+            "image": f"{STATIC_PROJECTS}/fccla-nationals.jpg",
+            "image_alt": "Four Lebanon Trail FCCLA members in red blazers at the National Leadership Conference",
             "href": "https://starlocalmedia.com/friscoenterprise/news/frisco-isd-students-earn-medals-at-fccla-nationals/article_54aa6c9e-50a1-47a8-b710-5dcd8dca20c9.html",
             "story": (
                 "At the FCCLA National Leadership Conference I was named National Champion and "
                 "gold medalist in School to Career Challenge Test Level 2, and silver medal "
                 "finalist in Sustainability Challenge Level 2.\n\n"
                 "Frisco Enterprise and Star Local Media covered it for Frisco ISD. The photo "
-                "is us in the red blazers under the NLC arch, which is still the version of "
-                "the week I remember most. Competitive events are a lot of studying in rooms "
-                "that do not look like this. Then they do."
+                "is us in the red blazers at nationals, which is still the version of the week "
+                "I remember most. Competitive events are a lot of studying in rooms that do "
+                "not look like this. Then they do."
             ),
         },
         {
@@ -445,7 +445,7 @@ CONTENT = {
             "date": "Press",
             "publisher": "Frisco Enterprise / Star Local Media",
             "excerpt": (
-                "Coverage of my FCCLA NATS results: National Champion & Gold Medalist "
+                "Coverage of my FCCLA nationals results: National Champion & Gold Medalist "
                 "(School to Career Challenge Test Level 2) and Silver Medal Finalist "
                 "(Sustainability Challenge Level 2)."
             ),
@@ -1516,6 +1516,8 @@ def work():
 
 @app.route("/work/<slug>")
 def project_detail(slug: str):
+    if slug == "fccla-nats":
+        return redirect(url_for("project_detail", slug="fccla-nationals"), code=301)
     project = get_project(slug)
     if not project or not project.get("story"):
         return redirect(url_for("work"))

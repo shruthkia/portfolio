@@ -9,7 +9,7 @@ Photo slots (overwrite these files, keep the names):
   static/brain/polaroid-me.jpg  OLD professional (desk selfie)
                                 Polaroid on /brain  (already filled from the previous site photo)
 
-  static/projects/fccla-nats.jpg
+  static/projects/fccla-nationals.jpg
   static/projects/microbit-automazer.jpg   MakeCode AUTOMAZER screenshot
   static/whoami-cutout.png      optional: transparent shrug cutout for home "who am i"
 
@@ -23,6 +23,6 @@ Project images in this folder:
   launchpoint.png
   dreamyuni.png
   selfcad.png
-  fccla-nats.jpg
+  fccla-nationals.jpg
   fccla-sustainability.jpg
   microbit-automazer.jpg

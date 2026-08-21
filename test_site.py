@@ -32,7 +32,7 @@ ROUTES = [
     "/work/arkire",
     "/work/lt-fccla",
     "/work/launchpoint",
-    "/work/fccla-nats",
+    "/work/fccla-nationals",
     "/work/fccla-sustainability",
     "/work/selfcad-champ",
     "/work/dreamyuni",
@@ -52,7 +52,7 @@ def assert_ok(resp, path: str) -> None:
     assert "Shruthika" in body
     assert "\u2014" not in body, f"em dash leaked on {path}"
     assert "Automizer" not in body
-    assert "Mahatma Global Gateway" not in body
+    assert "NATS" not in body
 
 
 def test_routes() -> None:
@@ -72,9 +72,11 @@ def test_routes() -> None:
     work = client.get("/work/microbit-automizer").get_data(as_text=True)
     assert "AUTOMAZER" in work
     assert "lambjam" in client.get("/work").get_data(as_text=True) or "Finch" in work
-    nats = client.get("/work/fccla-nats").get_data(as_text=True)
-    assert "fccla-nats.jpg" in nats
-    assert "National Leadership Conference" in nats or "welcome arch" in nats
+    nationals = client.get("/work/fccla-nationals").get_data(as_text=True)
+    assert "fccla-nationals.jpg" in nationals
+    assert "NATS" not in nationals
+    old = client.get("/work/fccla-nats", follow_redirects=False)
+    assert old.status_code in (301, 302)
     about = client.get("/about").get_data(as_text=True)
     assert "Mahatma" not in about
     assert "DFW Startup Week" in about
