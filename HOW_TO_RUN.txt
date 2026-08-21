@@ -1,4 +1,4 @@
-Shruthika Omkumar — portfolio site
+Shruthika Omkumar portfolio site
 
 Run from this folder:
 
@@ -8,16 +8,26 @@ Run from this folder:
 Open: http://127.0.0.1:5000
 
 Files:
-  portfolio.py      — main app (Flask + templates + content)
-  blogs.json        — life blog posts
-  messages.json     — contact form submissions (auto-created)
-  requirements.txt  — Python dependencies
-  static/           — images (projects/, hero.jpg, about.jpg)
+  portfolio.py      main app (Flask + templates + content)
+  blogs.json        life blog posts (written next to the app by default)
+  messages.json     contact form submissions (auto-created)
+  requirements.txt  Python dependencies
+  static/           images (projects/, hero.jpg, about.jpg)
 
 Optional env vars:
-  COMPOSE_PASSWORD  — blog compose page password (default: kia-compose-2026)
-  PORTFOLIO_SECRET  — Flask session secret
-  PORT              — used by Render / gunicorn (Procfile)
+  COMPOSE_PASSWORD  blog compose page password (default: kia-compose-2026)
+  PORTFOLIO_SECRET  Flask session secret (set this in production so logins survive restart)
+  PORT              used by Render / gunicorn (Procfile)
+  DATA_DIR          writable folder for blogs.json and messages.json
+  BLOGS_FILE        exact path for the blog store (overrides DATA_DIR)
+  MESSAGES_FILE     exact path for contact messages (overrides DATA_DIR)
+  RENDER_DISK_PATH  also accepted as DATA_DIR (Render persistent disk)
+
+Blog persistence:
+  Posts are saved atomically to blogs.json next to portfolio.py.
+  Render's app disk is wiped on deploy/restart, so local JSON will vanish there
+  unless you attach a persistent disk and set DATA_DIR (or BLOGS_FILE) to it.
+  If a save fails, the compose page shows an error instead of pretending it worked.
 
 Deploy (Render):
   Build:  pip install -r requirements.txt

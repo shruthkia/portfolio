@@ -1,5 +1,5 @@
 """
-Lorris-inspired portfolio — derived from:
+Lorris-inspired portfolio, derived from:
 https://outstanding-strengthening-284213.framer.app/
 
 Run:  pip install flask && python portfolio.py
@@ -12,9 +12,11 @@ Messages saved to: messages.json
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import secrets
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote
@@ -25,9 +27,13 @@ from markupsafe import Markup, escape
 
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_PROJECTS = "/static/projects"
-BLOGS_FILE = BASE_DIR / "blogs.json"
-MESSAGES_FILE = BASE_DIR / "messages.json"
+PACKAGED_BLOGS = BASE_DIR / "blogs.json"
+PACKAGED_MESSAGES = BASE_DIR / "messages.json"
 COMPOSE_PASSWORD = os.environ.get("COMPOSE_PASSWORD", "kia-compose-2026")
+
+log = logging.getLogger("portfolio")
+if not log.handlers:
+    logging.basicConfig(level=logging.INFO)
 
 app = Flask(
     __name__,
@@ -77,7 +83,7 @@ CONTENT = {
         {"label": "ABOUT", "href": "/about"},
         {"label": "WORK", "href": "/work"},
         {"label": "ISM", "href": "/ism"},
-        {"label": "BRAIN", "href": "/brain"},
+        {"label": "BRAINDUMP", "href": "/brain"},
         {"label": "BLOG", "href": "/blog"},
         {"label": "WRITING", "href": "/writing"},
         {"label": "CONTACT", "href": "/contact"},
@@ -119,7 +125,7 @@ CONTENT = {
             "FCCLA Silver Medal Finalist, Sustainability Challenge Level 2 (NATS)",
             "Featured in Frisco Enterprise / Star Local Media for FCCLA nationals medals",
             "UNA USA Ambassador 2025-26, United Nations Association USA",
-            "Scouted by 1507 Funds, Danielle Strachman",
+            "Scouted by 1517 Fund, Danielle Strachman",
             "FCCLA Sustainability Challenge, State 3rd Place & National Qualifier",
             "FCSA Gold Medal, FCCLA State Leadership Conference",
             "FCCLA Regional Champion, State 3rd & National Qualifier, Sustainability",
@@ -128,12 +134,12 @@ CONTENT = {
             "S4CA Best Young Architect Award, 3x Contractor Award 2024-25",
             "SPOT VSSF Top 100 Young Scientists, India (x2)",
             "International 3D Design, SelfCAD Winner 2023-24",
-            "Semi-Finalist Achievement in Distinction, Straight A's in all topics — SpellBee International",
+            "Semi-Finalist Achievement in Distinction, Straight A's in all topics, SpellBee International",
             "Bronze Winner, Intl. Level (Zonal Rank 6, Intl. Rank 60) Science Olympiad",
         ],
         "experience": [
             {"role": "Founder", "company": "Adopurr", "detail": "making all nine lives of a cat matter :D", "year": "Jul 2025 to Present"},
-            {"role": "Scouted Founder", "company": "1507 Funds", "detail": "Danielle Strachman", "year": "2025"},
+            {"role": "Scouted Founder", "company": "1517 Fund", "detail": "Danielle Strachman", "year": "2025"},
             {"role": "Co-Founder & Head of Growth", "company": "Arkire", "detail": "Ontario, Canada", "year": "Feb 2025 to Sep 2025"},
             {"role": "Human Resources Director", "company": "DreamyUni", "detail": "Brooklyn, NY", "year": "Jul 2025 to Present", "group": "DreamyUni"},
             {"role": "Marketing Intern", "company": "DreamyUni", "detail": "Brooklyn, NY", "year": "Oct 2024 to Jun 2025", "group": "DreamyUni"},
@@ -154,7 +160,6 @@ CONTENT = {
         "education": [
             {"degree": "High School Diploma", "school": "Lebanon Trail High School", "year": "Aug 2025 to May 2028"},
             {"degree": "High School", "school": "Milpitas High School", "year": "Jan 2025 to Jun 2025"},
-            {"degree": "", "school": "Mahatma Global Gateway", "year": "Jun 2016 to Jan 2025"},
             {"degree": "JuniorMBA, Entrepreneurship", "school": "Clever Harvey", "detail": "Certified by IIT Roorkee", "year": "May 2024", "group": "Clever Harvey"},
             {"degree": "JuniorMBA, Advertising", "school": "Clever Harvey", "year": "", "group": "Clever Harvey"},
             {"degree": "JuniorMBA, Design and Branding", "school": "Clever Harvey", "year": "", "group": "Clever Harvey"},
@@ -264,13 +269,36 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/adopurr.png",
             "href": "#",
             "story": (
-                "Adopurr is my baby: a project about making all nine lives of a cat matter. "
-                "I started it because shelter animals don’t get a second chance unless someone "
-                "actually builds the systems, stories, and stubbornness around them.\n\n"
-                "I’m the founder, which in practice means design, ops, storytelling, and "
-                "reminding people that “cute” is not a care plan. The through-line is the same "
-                "as my ISM work — advocate for those who cannot advocate for themselves, and "
-                "make adoption feel possible instead of like a maze."
+                "A cat adoption can be decided in fifteen minutes. That felt strange to me, "
+                "especially in a world where algorithms can predict what movie I might want "
+                "to watch next. If technology can recommend entertainment so precisely, why "
+                "are we still guessing when it comes to matching cats with homes?\n\n"
+                "That question led me to build Adopurr, an AI-driven predictive adoption "
+                "matching system I have committed to for the past 2 years. Freshman year of "
+                "high school, I worked at Mini Cat Town: play with the cats, feed them, check "
+                "if they were sick. Genuinely one of the best places I have been. I could have "
+                "said “AWWWW SO CUTE” and moved on. Something in me went: if humans have "
+                "emotions and characteristics that can be studied to make better decisions, "
+                "then so can animals. So I started reading research journals on what influences "
+                "animal behaviour, because it is amusing watching the same breed of cats act "
+                "completely differently from each other. That is when I realized I could use "
+                "Monte Carlo, random forest, and similar concepts to match cats to the right "
+                "adopters. Happy cat, happy home.\n\n"
+                "The funny thing is I used to HATE coding. Both my mom and dad code for a "
+                "living and I thought it was one of the most horrendous things invented, "
+                "because who starts debugging and goes “this is what my life was fricking "
+                "meant to be.” To me that was life in black and white. Research made coding "
+                "feel less bad. It was just my parents’ workplace that sucked. Pivotal moment: "
+                "I decided I will NEVER work for someone else, and I wanted to help society. "
+                "Apparently there is a flashy word for that: social entrepreneur.\n\n"
+                "What keeps me engaged is the traction. Ever since we got into the 1517 Fund "
+                "community, we have made real progress: potential partnerships with Dallas "
+                "Animal Shelter, Operation Kindness, and local shelters. We expanded into dogs "
+                "too, researching characteristics and emotional triggers. Over the summer we "
+                "planned an NPO branch called Paws for Cause, where high school students "
+                "advocate for animal rights and welfare and raise funds through school "
+                "chapters. We have already scouted 25+ chapters nationwide. We got $400 from "
+                "national FCCLA to kickstart, and we are planning to fundraise the rest of the year."
             ),
         },
         {
@@ -280,119 +308,122 @@ CONTENT = {
             "image": f"{STATIC_PROJECTS}/arkire.jpg",
             "href": "#",
             "story": (
-                "Arkire was a co-founder chapter: Ontario-based, growth-shaped, and very "
-                "much a “say yes then figure out the funnel” era. I led growth — positioning, "
-                "outreach, and the unglamorous work of turning interest into actual users.\n\n"
-                "It taught me how fast a product story can fall apart if you don’t talk to "
-                "people, and how much of “head of growth” is just listening, iterating, and "
-                "refusing to make the brand sound like a press release."
+                "Arkire was a smart marketing agency that used to teach how marketing works "
+                "to students. I left because it did not align with my vision for myself. "
+                "Short, honest, done."
             ),
         },
         {
             "slug": "lt-fccla",
             "title": "Lebanon Trail FCCLA",
-            "category": "chapter website / design + build",
+            "category": "chapter website / VP of competitive events",
             "image": f"{STATIC_PROJECTS}/lt-fccla.png",
             "href": "https://lt-fccla.vercel.app/",
             "story": (
-                "As VP of Competitive Events and chapter web builder, I designed and shipped "
-                "the Lebanon Trail FCCLA site so members could actually find competitions, "
-                "deadlines, and chapter life without digging through a group chat archaeology dig.\n\n"
-                "It’s live at lt-fccla.vercel.app — part brand, part utility. I wanted it to "
-                "feel like us: organized enough to be useful, still a little extra."
+                "LT FCCLA is basically what gave me my family. I joined as a member sophomore "
+                "year, right after I moved to Texas, and they made me feel included. Then I "
+                "competed, learned FCCLA in and out, and got elected VP of Competitive Events "
+                "this year.\n\n"
+                "We have 5 service projects planned, with around $3500 in funding projection. "
+                "As VP of comp I will make sure everyone in my chapter gets to be who they are "
+                "in a way they will grow and flourish. The chapter site is live at "
+                "lt-fccla.vercel.app."
             ),
         },
         {
             "slug": "launchpoint",
             "title": "LaunchPoint",
-            "category": "graphic design / 22k+ IG",
+            "category": "branding / 22k+ IG",
             "image": f"{STATIC_PROJECTS}/launchpoint.png",
             "href": "#",
             "story": (
-                "At LaunchPoint I came in as graphic lead for a page sitting at 22k+ on "
-                "Instagram. The job was visual strategy: make the feed look like it knows "
-                "what it’s doing, then keep it growing without turning into beige startup soup.\n\n"
-                "I handled graphics, visual direction, and the “does this still feel like us?” "
-                "gut check. Design here is not decoration — it’s how people decide to stay."
+                "Summer internship at the UGC startup for star athletes, founded by Tristan "
+                "Rhee (Co-Founder and CEO), Adam Barr-Neuwirth (Co-Founder and CTO), and Caleb "
+                "Downs (Dallas Cowboys). I did branding and Instagram posts. They had 22K+ "
+                "followers by the time I left."
             ),
         },
         {
             "slug": "fccla-nats",
             "title": "FCCLA Nationals",
             "category": "national champion + silver medal",
-            "image": f"{STATIC_PROJECTS}/fccla-sustainability.jpg",
+            "image": f"{STATIC_PROJECTS}/fccla-nats.jpg",
             "href": "https://starlocalmedia.com/friscoenterprise/news/frisco-isd-students-earn-medals-at-fccla-nationals/article_54aa6c9e-50a1-47a8-b710-5dcd8dca20c9.html",
             "story": (
-                "At the FCCLA National Leadership Conference (NATS) in Washington, D.C., "
-                "I was named National Champion and Gold Medalist in the School to Career "
-                "Challenge Test Level 2, and earned a Silver Medal Finalist honor in the "
-                "Sustainability Challenge Level 2.\n\n"
-                "Frisco Enterprise / Star Local Media covered the medals for Frisco ISD. "
-                "The short version: I studied like it mattered, showed up, and it did."
+                "At the FCCLA National Leadership Conference in Washington, D.C., I was named "
+                "National Champion and Gold Medalist in the School to Career Challenge Test "
+                "Level 2, and Silver Medal Finalist in the Sustainability Challenge Level 2.\n\n"
+                "Frisco Enterprise / Star Local Media covered it for Frisco ISD. The short "
+                "version: I studied like it mattered, showed up, and it did."
             ),
         },
         {
             "slug": "fccla-sustainability",
-            "title": "Sustainability Challenge",
-            "category": "FCCLA / state 3rd → NATS silver",
+            "title": "AeraDomus",
+            "category": "indoor air / sustainability",
             "image": f"{STATIC_PROJECTS}/fccla-sustainability.jpg",
             "href": "https://www.friscoisd.org/article/3004120",
             "story": (
-                "The Sustainability Challenge was the long haul: regional champion, state 3rd "
-                "and national qualifier, then a silver medal finalist finish at NATS. It’s the "
-                "project that taught me research is not a vibe — it’s receipts, systems, and "
-                "being able to defend your recommendations out loud.\n\n"
-                "I still care about the unsexy version of sustainability: what actually changes "
-                "when a school, a family, or a shelter has to live with the plan."
+                "The strange thing about fainting is that it happens without warning. One "
+                "moment everything feels normal. The next moment you are on the floor trying "
+                "to figure out what just happened. I fainted one morning before school while "
+                "getting ready. At the time, the most frustrating part was missing a test. It "
+                "felt like a random inconvenience more than anything meaningful.\n\n"
+                "Afterward I kept thinking about something I had never really questioned: how "
+                "much the environments we live in affect our health. Researching indoor air "
+                "pollution and ventilation, one statistic stuck. Indoor air pollution is "
+                "responsible for millions of premature deaths worldwide each year. It is worse "
+                "in lower-income households because of poor ventilation and building materials "
+                "that release toxins. What bothered me most was that many solutions are "
+                "expensive tech the people most affected cannot actually access.\n\n"
+                "That pushed me to start AeraDomus, a housing design framework for indoor air "
+                "quality using passive, low-cost architectural features: airflow patterns, "
+                "solar-powered ventilation chimneys, materials that reduce indoor toxins. Not "
+                "expensive filtration. I built a small airflow model. Watching smoke move made "
+                "it clear: healthy vs unhealthy air is about design decisions, not just "
+                "technology. A lot of issues we call health problems are also design problems. "
+                "The impact I want is systems that quietly improve people’s lives."
             ),
         },
         {
             "slug": "selfcad-champ",
             "title": "SelfCAD Champ",
-            "category": "3D modeling / 1st prize · Candyland w/ Sachin (7B)",
+            "category": "3D modeling / international award at 13",
             "image": f"{STATIC_PROJECTS}/selfcad.png",
             "href": "#",
             "story": (
-                "Candyland, but make it 3D. I teamed up with Sachin (7B) for an international "
-                "SelfCAD competition, took 1st, and later spent a couple of years as a SelfCAD "
-                "ambassador — tutorials, community, and teaching other people how to make "
-                "weird little worlds on purpose.\n\n"
-                "This is still one of my favorite proofs that “nerdy stuff” and “pretty stuff” "
-                "are the same hobby if you let them be."
+                "International 3D award when I was 13. Me and a friend made Candyland from "
+                "scratch in SelfCAD. That is still one of my favorite proofs that nerdy stuff "
+                "and pretty stuff are the same hobby if you let them be."
             ),
         },
         {
             "slug": "dreamyuni",
             "title": "DreamyUni",
-            "category": "marketing / HR",
+            "category": "operations / HR",
             "image": f"{STATIC_PROJECTS}/dreamyuni.png",
             "href": "#",
             "story": (
-                "DreamyUni is a two-act story in one company. I started as a marketing intern "
-                "(Oct 2024–Jun 2025): campaigns, visuals, the “please make this make sense on "
-                "the internet” brief. Then I moved into Human Resources Director, still Brooklyn-based, "
-                "still remote-brained, now on people ops.\n\n"
-                "Same org, different muscle. Marketing taught me how a project looks from the "
-                "outside. HR taught me how it feels from the inside — recruiting, coordination, "
-                "and not letting the team become a group chat with extra steps."
+                "I worked closely with Danny W. Chen to oversee operations and HR at the early "
+                "stages, helping students get into their dream universities. Same org, different "
+                "muscle than the marketing internship I started in: people, coordination, and "
+                "actually making the early-stage chaos usable."
             ),
         },
         {
             "slug": "microbit-automizer",
-            "title": "micro:bit Automizer",
-            "category": "hardware / automation",
-            "image": f"{STATIC_PROJECTS}/microbit.svg",
+            "title": "micro:bit AUTOMAZER",
+            "category": "Ithaca TISA / Finch + micro:bit",
+            "image": f"{STATIC_PROJECTS}/microbit-automazer.jpg",
             "href": "#",
             "story": (
-                "The micro:bit Automizer is a hardware experiment: take the BBC micro:bit — "
-                "that little yellow board with the 5×5 LED face — and turn it into a pocket "
-                "automizer. Sensors in, routines out. Buttons, light, temperature, motion, "
-                "whatever I can wire without setting a desk on fire.\n\n"
-                "It’s the opposite of a 40-page plan. I wanted something that actually does "
-                "the thing: trigger a reminder, log a reading, flash a pattern, kick off a "
-                "tiny chain of actions. Builder energy, classroom hardware, slightly feral "
-                "curiosity. Ships are not built for the harbor; yellow boards are not built "
-                "to sit in a drawer."
+                "As part of Ithaca TISA I made a robot that used a micro:bit to analyze its "
+                "environment, figure out how to get out of a maze, and send radio signals to "
+                "another robot so it would move the same way.\n\n"
+                "The stack was a Finch robot plus a micro:bit in Microsoft MakeCode. Radio "
+                "group 125 so the two boards could talk. Obstacle avoidance, a 360 scan, pick "
+                "the best path, then radio the moves to the second robot. Builder energy, "
+                "classroom hardware, slightly feral curiosity. AUTOMAZER, not a typo."
             ),
         },
     ],
@@ -434,7 +465,7 @@ CONTENT = {
         ),
         "cta_label": "SEND A HELLO",
         "cta_href": "/contact",
-        "school_hours": "weekdays, 9:00 AM – 4:30 PM",
+        "school_hours": "weekdays, 9:00 AM to 4:30 PM",
     },
 }
 
@@ -461,6 +492,7 @@ BASE_HTML = r"""<!DOCTYPE html>
   <link rel="preload" href="https://fonts.gstatic.com/s/jost/v18/92zPtBhPNqw79Ij1E865zBUv7myjJQVDPokMmuHL.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/jost/v18/92zPtBhPNqw79Ij1E865zBUv7mx9IgVDPokMmuHL.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/syncopate/v22/pe0pMIuPIYBCpEV5eFdKvtKaBvRue1UwVg.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/ibmplexmono/v19/-F6qfjptAgt5VM-kVkqdyU8n3twJwlBFgg.woff2" as="font" type="font/woff2" crossorigin>
   <style>
     @font-face {
       font-family: "Jost";
@@ -482,10 +514,15 @@ BASE_HTML = r"""<!DOCTYPE html>
       src: url("https://fonts.gstatic.com/s/syncopate/v22/pe0pMIuPIYBCpEV5eFdKvtKaBvRue1UwVg.woff2") format("woff2");
       font-weight: 700; font-style: normal; font-display: swap;
     }
+    @font-face {
+      font-family: "IBM Plex Mono";
+      src: url("https://fonts.gstatic.com/s/ibmplexmono/v19/-F6qfjptAgt5VM-kVkqdyU8n3twJwlBFgg.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
   </style>
   <link rel="stylesheet" href="/static/site.css">
 </head>
-<body>
+<body{% if brain_page %} class="brain-page"{% endif %}>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <div class="grid-bg" aria-hidden="true">
     <div class="grid-paper"></div>
@@ -580,6 +617,24 @@ BASE_HTML = r"""<!DOCTYPE html>
     themeSwitch.addEventListener("click", () => {
       applyTheme(currentTheme() === "dark" ? "light" : "dark");
     });
+
+    (function () {
+      const who = document.querySelector(".whoami");
+      if (!who) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      function updateWho() {
+        if (reduced) {
+          who.style.setProperty("--who-p", "1");
+          return;
+        }
+        const span = Math.max(1, who.offsetHeight - window.innerHeight * 0.7);
+        const p = Math.min(1, Math.max(0, -who.getBoundingClientRect().top / span));
+        who.style.setProperty("--who-p", String(p));
+      }
+      updateWho();
+      window.addEventListener("scroll", updateWho, { passive: true });
+      window.addEventListener("resize", updateWho);
+    })();
 
     const navToggle = document.getElementById("navToggle");
     const navLinks = document.getElementById("nav-links");
@@ -678,6 +733,21 @@ BASE_HTML = r"""<!DOCTYPE html>
 
 HOME_PAGE = r"""{% extends "base.html" %}
 {% block content %}
+<section class="whoami" id="who-am-i" aria-label="Who am I">
+  <div class="whoami-sticky">
+    <h1 class="whoami-title reveal visible">who am <em>i</em></h1>
+    <img
+      class="whoami-cutout"
+      src="/static/whoami-cutout.png"
+      width="320"
+      height="553"
+      alt="{{ meta.name }} in a pink striped sweater and pink sunglasses, crouched with her chin in her hand"
+    >
+    <p class="whoami-line whoami-idk">i don't know..</p>
+    <p class="whoami-line whoami-sure">but one thing for sure is i'm full of love, hustle</p>
+  </div>
+</section>
+
 <section class="hero">
   <div class="hero-copy">
     <p class="hero-eyebrow reveal">{{ meta.tagline }} <em class="italic">{{ meta.title_italic }}</em></p>
@@ -690,7 +760,7 @@ HOME_PAGE = r"""{% extends "base.html" %}
   <div class="hero-visual reveal-scale visible" data-delay="0.15">
     <div class="hero-circle" aria-hidden="true"></div>
     <div class="hero-portrait-wrap" data-tilt>
-      <img src="{{ hero.portrait }}" alt="{{ meta.name }}" width="800" height="1082" decoding="async">
+      <img src="{{ hero.portrait }}" alt="{{ meta.name }} in a black blazer at a desk, looking up at the camera" width="800" height="1082" decoding="async">
       <span class="hero-badge">{{ meta.title }}</span>
     </div>
   </div>
@@ -698,7 +768,7 @@ HOME_PAGE = r"""{% extends "base.html" %}
 
 <figure class="quote-banner reveal">
   <blockquote>“{{ quote.text }}”</blockquote>
-  <figcaption>— {{ quote.attr }}</figcaption>
+  <figcaption>{{ quote.attr }}</figcaption>
 </figure>
 
 <div class="big-scroll-wrap" aria-hidden="true">
@@ -804,7 +874,7 @@ ABOUT_PAGE = r"""{% extends "base.html" %}
 {% block content %}
 <div class="about-hero">
   <div class="about-photo reveal-scale visible" data-tilt>
-    <img src="{{ about.portrait }}" alt="{{ meta.name }}" width="800" height="1082" decoding="async">
+    <img src="{{ about.portrait }}" alt="{{ meta.name }} in a black blazer, photographed from above at a desk" width="800" height="1082" decoding="async">
     <span class="about-photo-label">{{ meta.title }}</span>
   </div>
   <div>
@@ -944,6 +1014,9 @@ BLOG_PAGE = r"""{% extends "base.html" %}
 BLOG_POST_PAGE = r"""{% extends "base.html" %}
 {% block content %}
 <article class="reveal visible">
+  {% if flash_msg %}
+  <p class="flash flash-{{ flash_type }}" role="status">{{ flash_msg }}</p>
+  {% endif %}
   <p class="about-location">{{ post.date }}</p>
   <h1 class="page-title">{{ post.title }}</h1>
   <div class="blog-body">
@@ -1012,7 +1085,7 @@ CONTACT_PAGE = r"""{% extends "base.html" %}
     <div class="email-card">
       <h3>School · {{ contact.school_hours }}</h3>
       <a href="mailto:{{ meta.school_email }}?cc={{ meta.email }}">{{ meta.school_email }}</a>
-      <p>Weekdays 9:00–4:30. Please CC my personal email so I don’t miss it.</p>
+      <p>Weekdays 9:00 to 4:30. Please CC my personal email so I don’t miss it.</p>
     </div>
   </div>
 
@@ -1029,7 +1102,7 @@ CONTACT_PAGE = r"""{% extends "base.html" %}
       <label for="channel">Send to</label>
       <select id="channel" name="channel">
         <option value="personal">Personal email (anytime)</option>
-        <option value="school">School email, 9:00–4:30 · CC personal</option>
+        <option value="school">School email, 9:00 to 4:30 · CC personal</option>
       </select>
       <span class="form-help">This opens your email app with the message filled in, so it actually reaches me.</span>
     </div>
@@ -1047,11 +1120,11 @@ ISM_PAGE = r"""{% extends "base.html" %}
 {% block content %}
 <p class="about-location reveal">Frisco ISD · Lebanon Trail</p>
 <h1 class="page-title reveal">independent study &amp; <em>mentorship</em></h1>
-<p class="contact-body reveal" style="font-size:18px;max-width:640px;">{{ ism.program }} — what we do, what I’m researching, and why I’m here.</p>
+<p class="contact-body reveal" style="font-size:18px;max-width:640px;">{{ ism.program }}: what we do, what I’m researching, and why I’m here.</p>
 
 <figure class="quote-banner reveal">
   <blockquote>“{{ quote.text }}”</blockquote>
-  <figcaption>— {{ quote.attr }}</figcaption>
+  <figcaption>{{ quote.attr }}</figcaption>
 </figure>
 
 <div class="ism-grid">
@@ -1081,96 +1154,189 @@ ISM_PAGE = r"""{% extends "base.html" %}
 
 BRAIN_PAGE = r"""{% extends "base.html" %}
 {% block content %}
-<section class="brain-hero">
-  <div class="brain-stickers" aria-hidden="true">
-    <img class="sticker" src="/static/brain/shell.png" alt="" style="width:88px;top:8%;left:4%;transform:rotate(-12deg);">
-    <img class="sticker" src="/static/brain/apple.png" alt="" style="width:70px;top:12%;right:8%;transform:rotate(8deg);">
-    <img class="sticker" src="/static/brain/banana.png" alt="" style="width:96px;top:58%;left:2%;transform:rotate(-20deg);">
-    <img class="sticker" src="/static/brain/keys.png" alt="" style="width:110px;top:42%;right:3%;transform:rotate(-18deg);">
-    <img class="sticker" src="/static/brain/receipt.png" alt="" style="width:64px;bottom:6%;right:18%;transform:rotate(6deg);">
-    <img class="sticker" src="/static/brain/star.png" alt="" style="width:56px;bottom:12%;left:12%;">
-  </div>
-  <p class="brain-kicker reveal">{{ brain.kicker }}</p>
-  <h1 class="brain-title reveal">welcome to my <em>brain</em></h1>
-</section>
-
-<section class="brain-band brain-band-pink">
-  <div class="brain-band-inner brain-split">
-    <img class="brain-photo reveal-scale" src="/static/brain/portrait.jpg" alt="{{ meta.name }} in a pink striped sweater">
-    <div>
-      <h2 class="brain-title reveal" style="font-size:clamp(28px,5vw,48px);margin-bottom:0.75rem;">about <em>me</em></h2>
-      <p class="brain-copy reveal">{{ brain.intro }}</p>
+<div class="brain-collage">
+<section class="brain-band brain-grid-cream">
+  <div class="brain-band-inner">
+    <div class="brain-hero-top">
+      <p class="brain-kicker reveal">{{ brain.kicker }}</p>
+      <h1 class="brain-title reveal">welcome to my <em>braindump</em><span class="brain-emoji" aria-hidden="true">🧠</span></h1>
+    </div>
+    <img class="sticker" src="/static/brain/shell.png" alt="" style="width:86px;top:6%;left:42%;transform:rotate(-14deg);">
+    <img class="sticker" src="/static/brain/apple.png" alt="" style="width:68px;top:10%;right:8%;transform:rotate(10deg);">
+    <img class="sticker" src="/static/brain/banana.png" alt="" style="width:100px;top:38%;left:2%;transform:rotate(-22deg);">
+    <img class="sticker" src="/static/brain/keys.png" alt="" style="width:108px;top:48%;right:6%;transform:rotate(-16deg);">
+    <img class="sticker" src="/static/brain/clip.png" alt="" style="width:58px;top:18%;left:28%;transform:rotate(12deg);">
+    <img class="sticker" src="/static/brain/notebook.png" alt="" style="width:72px;bottom:8%;left:8%;transform:rotate(8deg);">
+    <div class="brain-about-row">
+      <div>
+        <h2 class="brain-title reveal" style="font-size:clamp(28px,5vw,52px);margin-bottom:0.85rem;">about <em>me</em> 😼</h2>
+        <p class="brain-copy reveal">{{ brain.intro }}</p>
+      </div>
+      <div class="brain-photo-wrap reveal-scale">
+        <img class="brain-photo" src="/static/whoami-cutout.png" alt="{{ meta.name }} in a pink striped sweater, pink sunglasses, and patchwork jeans, crouched with her chin in her hand">
+      </div>
     </div>
   </div>
 </section>
 
-<section class="brain-band">
+<section class="brain-band brain-grid-pink">
   <div class="brain-band-inner">
-    <h2 class="brain-title reveal" style="font-size:clamp(28px,5vw,48px);">the <em>side hustles</em></h2>
-    <div class="brain-hustles">
-      {% for h in brain.hustles %}
-      <article class="hustle reveal">
-        <img src="{{ h.img }}" alt="{{ h.alt }}">
-        <p>{{ h.text }}</p>
+    <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">the <em>side hustles</em> 🔥</h2>
+    <div class="brain-hustle-field">
+      <article class="hustle-float reveal" style="top:8%;left:2%;">
+        <img src="/static/brain/cat.png" alt="stretching black cat sticker">
+        <p>Random projects that started as purely “for fun”</p>
       </article>
-      {% endfor %}
+      <article class="hustle-float reveal" style="top:18%;left:38%;">
+        <img src="/static/brain/cd.png" alt="holographic CD sticker">
+        <p>Helping people make things look and feel better</p>
+      </article>
+      <article class="hustle-float reveal" style="top:6%;right:2%;">
+        <img src="/static/brain/polaroid.jpg" alt="polaroid of a quiet street">
+        <p>Saying yes, then learning how to do the thing</p>
+      </article>
+      <img class="sticker" src="/static/brain/receipt.png" alt="" style="width:70px;bottom:12%;left:22%;transform:rotate(8deg);">
+      <img class="sticker" src="/static/brain/star.png" alt="" style="width:52px;bottom:18%;right:28%;">
+      <img class="sticker" src="/static/brain/coffee.png" alt="" style="width:88px;bottom:4%;right:8%;transform:rotate(-8deg);">
     </div>
     <p class="brain-note">{{ brain.hustles_note }}</p>
   </div>
 </section>
 
-<section class="brain-band brain-band-dark">
+<section class="brain-band brain-grid-dark">
   <div class="brain-band-inner brain-dark-layout">
     <div>
-      <h2 class="brain-title reveal" style="font-size:clamp(28px,5vw,48px);">hyper-<em>fixations</em></h2>
+      <h2 class="brain-title reveal" style="font-size:clamp(32px,6vw,64px);">hyper-<em>fixations</em></h2>
       <ul class="brain-fix-list">
         {% for item in brain.fixations %}
         <li>{{ item }}</li>
         {% endfor %}
       </ul>
       <p class="brain-note">{{ brain.fixations_note }}</p>
+      <h2 class="brain-title reveal" style="font-size:clamp(26px,4vw,44px);margin-top:2rem;">brain <em>dump</em></h2>
+      <div class="brain-dumps">
+        {% for d in brain.dumps %}
+        <article class="dump-card reveal">
+          <strong>{{ d.label }}</strong>
+          <p>{{ d.text }}</p>
+        </article>
+        {% endfor %}
+      </div>
     </div>
-    <div aria-hidden="true" style="position:relative;min-height:220px;">
-      <img class="sticker" src="/static/brain/earbuds.png" alt="" style="width:140px;top:0;right:8%;">
-      <img class="sticker" src="/static/brain/dog.png" alt="" style="width:120px;bottom:0;left:0;">
-      <img class="sticker" src="/static/brain/coffee.png" alt="" style="width:90px;bottom:10%;right:0;">
-    </div>
-  </div>
-</section>
-
-<section class="brain-band">
-  <div class="brain-band-inner">
-    <h2 class="brain-title reveal" style="font-size:clamp(28px,5vw,48px);">brain <em>dump</em></h2>
-    <div class="brain-hustles" style="margin-top:1rem;">
-      {% for d in brain.dumps %}
-      <article class="hustle reveal">
-        <p style="color:var(--accent);font-size:11px;margin-bottom:0.4rem;">{{ d.label }}</p>
-        <p>{{ d.text }}</p>
-      </article>
-      {% endfor %}
-      <aside class="sticky-note reveal">
+    <div style="position:relative;min-height:280px;">
+      <img class="sticker" src="/static/brain/earbuds.png" alt="" style="width:150px;top:0;right:4%;transform:rotate(12deg);">
+      <img class="sticker" src="/static/brain/dog.png" alt="" style="width:128px;top:38%;left:0;">
+      <img class="sticker" src="/static/brain/apple.png" alt="" style="width:70px;bottom:22%;right:10%;transform:rotate(-18deg);">
+      <aside class="sticky-note reveal" style="position:relative;margin-top:12rem;">
         <p>“{{ quote.text }}”</p>
-        <cite>— {{ quote.attr }}</cite>
+        <cite>{{ quote.attr }}</cite>
       </aside>
     </div>
   </div>
 </section>
+</div>
 {% endblock %}
 """
 
 
-def load_blogs() -> list[dict]:
-    if not BLOGS_FILE.exists():
+def _writable_dir(path: Path) -> bool:
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+        probe = path / ".write-test"
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink()
+        return True
+    except OSError:
+        return False
+
+
+def data_dir() -> Path:
+    env = os.environ.get("DATA_DIR") or os.environ.get("RENDER_DISK_PATH")
+    candidates: list[Path] = []
+    if env:
+        candidates.append(Path(env).expanduser())
+    candidates.extend([Path("/var/data"), Path("/data"), BASE_DIR])
+    for candidate in candidates:
+        if _writable_dir(candidate):
+            return candidate
+    return BASE_DIR
+
+
+def blogs_path() -> Path:
+    env = os.environ.get("BLOGS_FILE")
+    if env:
+        path = Path(env).expanduser()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        return path
+    return data_dir() / "blogs.json"
+
+
+def messages_path() -> Path:
+    env = os.environ.get("MESSAGES_FILE")
+    if env:
+        path = Path(env).expanduser()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        return path
+    return data_dir() / "messages.json"
+
+
+def atomic_write_json(path: Path, payload) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    text = json.dumps(payload, indent=2, ensure_ascii=False) + "\n"
+    fd, tmp = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(text)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(tmp, path)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
+def _read_json_list(path: Path) -> list:
+    if not path.exists():
         return []
-    raw = BLOGS_FILE.read_text(encoding="utf-8-sig").strip() or "[]"
-    return json.loads(raw)
+    try:
+        raw = path.read_text(encoding="utf-8-sig").strip() or "[]"
+        data = json.loads(raw)
+        return data if isinstance(data, list) else []
+    except (OSError, json.JSONDecodeError) as exc:
+        log.error("Failed to read %s: %s", path, exc)
+        return []
 
 
-def save_blogs(blogs: list[dict]) -> None:
-    BLOGS_FILE.write_text(
-        json.dumps(blogs, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
+def _seed_if_needed(path: Path, packaged: Path) -> None:
+    if path.exists() or not packaged.exists():
+        return
+    if path.resolve() == packaged.resolve():
+        return
+    try:
+        atomic_write_json(path, _read_json_list(packaged))
+        log.info("Seeded %s from %s", path, packaged)
+    except OSError as exc:
+        log.warning("Could not seed %s: %s", path, exc)
+
+
+def load_blogs() -> list[dict]:
+    path = blogs_path()
+    _seed_if_needed(path, PACKAGED_BLOGS)
+    return _read_json_list(path)
+
+
+def save_blogs(blogs: list[dict]) -> bool:
+    path = blogs_path()
+    try:
+        atomic_write_json(path, blogs)
+        log.info("Saved %s blog post(s) to %s", len(blogs), path)
+        return True
+    except OSError as exc:
+        log.exception("Failed to save blogs to %s: %s", path, exc)
+        return False
 
 
 def slugify(title: str) -> str:
@@ -1220,11 +1386,10 @@ def story_paragraphs(text: str) -> list[str]:
     return [p.strip() for p in text.split("\n\n") if p.strip()]
 
 
-def save_message(name: str, email: str, message: str, channel: str) -> None:
-    messages = []
-    if MESSAGES_FILE.exists():
-        raw = MESSAGES_FILE.read_text(encoding="utf-8-sig").strip() or "[]"
-        messages = json.loads(raw)
+def save_message(name: str, email: str, message: str, channel: str) -> bool:
+    path = messages_path()
+    _seed_if_needed(path, PACKAGED_MESSAGES)
+    messages = _read_json_list(path)
     messages.append({
         "name": name,
         "email": email,
@@ -1232,10 +1397,12 @@ def save_message(name: str, email: str, message: str, channel: str) -> None:
         "channel": channel,
         "at": datetime.now(timezone.utc).isoformat(),
     })
-    MESSAGES_FILE.write_text(
-        json.dumps(messages, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
+    try:
+        atomic_write_json(path, messages)
+        return True
+    except OSError as exc:
+        log.exception("Failed to save message to %s: %s", path, exc)
+        return False
 
 
 def build_mailto(name: str, reply_email: str, message: str, channel: str) -> str:
@@ -1283,12 +1450,13 @@ _jinja = Environment(
 _jinja.filters["safe_em"] = safe_em_filter
 
 
-def _ctx(*, active: str, page_title: str, show_contact: bool = True, wide_page: bool = False, **extra) -> dict:
+def _ctx(*, active: str, page_title: str, show_contact: bool = True, wide_page: bool = False, brain_page: bool = False, **extra) -> dict:
     ctx = {
         "active": active,
         "page_title": page_title,
         "show_contact": show_contact,
         "wide_page": wide_page,
+        "brain_page": brain_page,
         "meta": CONTENT["meta"],
         "hero": CONTENT["hero"],
         "nav": CONTENT["nav"],
@@ -1354,7 +1522,7 @@ def ism():
 
 @app.route("/brain")
 def brain():
-    return render_page("brain.html", active="BRAIN", page_title="Brain dump", wide_page=True)
+    return render_page("brain.html", active="BRAINDUMP", page_title="my braindump", wide_page=True, brain_page=True)
 
 
 @app.route("/contact")
@@ -1376,11 +1544,12 @@ def contact_send():
         session["flash_type"] = "error"
         return redirect(url_for("contact"))
     try:
-        save_message(name, email, message, channel)
+        saved = save_message(name, email, message, channel)
     except OSError:
-        if not wants_json:
-            session["flash_msg"] = "Could not save your message. Opening email instead."
-            session["flash_type"] = "error"
+        saved = False
+    if not saved and not wants_json:
+        session["flash_msg"] = "Could not save your message. Opening email instead."
+        session["flash_type"] = "error"
     mailto = build_mailto(name, email, message, channel)
     if wants_json:
         return jsonify({"ok": True, "mailto": mailto})
@@ -1420,20 +1589,31 @@ def compose():
             title = (request.form.get("title") or "").strip()
             excerpt = (request.form.get("excerpt") or "").strip()
             body = (request.form.get("body") or "").strip()
-            if title and excerpt and body:
-                blogs = load_blogs()
-                slug = slugify(title)
-                if any(b.get("slug") == slug for b in blogs):
-                    slug = f"{slug}-{len(blogs) + 1}"
-                blogs.insert(0, {
-                    "slug": slug,
-                    "title": title,
-                    "date": datetime.now().strftime("%b %Y"),
-                    "excerpt": excerpt,
-                    "body": body,
-                })
-                save_blogs(blogs)
-                return redirect(url_for("blog_post", slug=slug))
+            if not (title and excerpt and body):
+                session["flash_msg"] = "Please fill in title, excerpt, and body."
+                session["flash_type"] = "error"
+                return redirect(url_for("compose"))
+            blogs = load_blogs()
+            slug = slugify(title)
+            if any(b.get("slug") == slug for b in blogs):
+                slug = f"{slug}-{len(blogs) + 1}"
+            blogs.insert(0, {
+                "slug": slug,
+                "title": title,
+                "date": datetime.now().strftime("%b %Y"),
+                "excerpt": excerpt,
+                "body": body,
+            })
+            if not save_blogs(blogs):
+                session["flash_msg"] = (
+                    "Could not save this post. The disk may be read-only after deploy. "
+                    "Set DATA_DIR or BLOGS_FILE to a writable persistent folder and try again."
+                )
+                session["flash_type"] = "error"
+                return redirect(url_for("compose"))
+            session["flash_msg"] = "Published."
+            session["flash_type"] = "success"
+            return redirect(url_for("blog_post", slug=slug))
         password = request.form.get("password", "")
         if password == COMPOSE_PASSWORD:
             session["compose_authed"] = True
