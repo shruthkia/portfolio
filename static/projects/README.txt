@@ -3,7 +3,7 @@ Photo slots (overwrite these files, keep the names):
   static/about.jpg              NEW professional (DFW Startup Week / black blazer)
                                 Home and About both use this one file.
 
-  static/brain/center.jpg       Casual leopard-print dress (gallery shrug)
+  static/brain/center.jpg       Casual leopard-print dress on WHITE background
                                 Big middle photo on /brain
 
   static/brain/polaroid-me.jpg  OLD professional (desk selfie)
