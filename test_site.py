@@ -67,17 +67,31 @@ def test_routes() -> None:
     assert "i love animals" in home
     assert "please don't quiz me" not in home
     assert "/static/ghibli-me-cat.png" in home
+    assert "hero-cta-only" in home
+    assert "hero-portrait-wrap" not in home
+    assert home.count("/static/ghibli-me-cat.png") == 1
     assert "hero-intro" not in home or "I do a little bit of everything, designing" not in home
-    assert "beautiful to love the common" in home.lower()
+    assert "love a leaf" in home.lower()
+    assert "beautiful to love the ordinary" in home.lower()
+    assert "S.C. Lourie" in home
     assert "John A. Shedd" not in home
+    assert "beautiful to love the common" not in home.lower()
     assert "RESEARCH" in home
     assert "Research 1" in home
     assert "MENTOR" in home
-    assert "paw-cursor" in (ROOT / "static" / "site.css").read_text(encoding="utf-8")
-    assert (ROOT / "static" / "paw-cursor-32.png").exists()
+    css = (ROOT / "static" / "site.css").read_text(encoding="utf-8")
+    assert "paw-cursor" not in css
+    assert "220vh" not in css
+    assert not (ROOT / "static" / "paw-cursor.png").exists()
+    assert not (ROOT / "static" / "paw-cursor-32.png").exists()
     assert (ROOT / "static" / "ghibli-me-cat.png").exists()
     assert (ROOT / "static" / "mentor-unknown.png").exists()
+    ism = client.get("/ism").get_data(as_text=True)
+    assert "S.C. Lourie" in ism
+    assert "love a leaf" in ism.lower()
     brain = client.get("/brain").get_data(as_text=True)
+    assert "S.C. Lourie" in brain
+    assert "love a leaf" in brain.lower()
     assert "BRAINDUMP" in brain
     assert "welcome to my" in brain
     assert "my braindump" in brain.lower()
