@@ -85,6 +85,12 @@ def test_routes() -> None:
     assert "min-height: 150vh" in css
     assert "--who-p" in css
     assert "position: sticky" in css
+    assert "align-content: center" in css
+    # Pre-scroll: cutout visible at who-p 0 (not fade-gated behind 0.12)
+    assert "(var(--who-p) - 0.12)" not in css
+    assert "opacity: clamp(0.55" in css
+    whoami_block = css[css.find(".whoami-cutout") : css.find(".whoami-line")]
+    assert "opacity: 1;" in whoami_block or "opacity: 1\n" in whoami_block
     base = (ROOT / "portfolio.py").read_text(encoding="utf-8")
     assert 'setProperty("--who-p"' in base
     assert "prefers-reduced-motion" in base
