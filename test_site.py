@@ -82,6 +82,12 @@ def test_routes() -> None:
     css = (ROOT / "static" / "site.css").read_text(encoding="utf-8")
     assert "paw-cursor" not in css
     assert "220vh" not in css
+    assert "min-height: 150vh" in css
+    assert "--who-p" in css
+    assert "position: sticky" in css
+    base = (ROOT / "portfolio.py").read_text(encoding="utf-8")
+    assert 'setProperty("--who-p"' in base
+    assert "prefers-reduced-motion" in base
     assert not (ROOT / "static" / "paw-cursor.png").exists()
     assert not (ROOT / "static" / "paw-cursor-32.png").exists()
     assert (ROOT / "static" / "ghibli-me-cat.png").exists()
