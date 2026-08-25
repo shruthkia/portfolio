@@ -38,6 +38,8 @@ ROUTES = [
     "/work/dreamyuni",
     "/work/microbit-automizer",
     "/ism",
+    "/research/1",
+    "/mentor",
     "/brain",
     "/blog",
     "/writing",
@@ -62,8 +64,19 @@ def test_routes() -> None:
     home = client.get("/").get_data(as_text=True)
     assert "who am" in home
     assert "i don't know" in home
-    assert "please don't quiz me" in home
-    assert "full of love, hustle" not in home
+    assert "i love animals" in home
+    assert "please don't quiz me" not in home
+    assert "/static/ghibli-me-cat.png" in home
+    assert "hero-intro" not in home or "I do a little bit of everything, designing" not in home
+    assert "beautiful to love the common" in home.lower()
+    assert "John A. Shedd" not in home
+    assert "RESEARCH" in home
+    assert "Research 1" in home
+    assert "MENTOR" in home
+    assert "paw-cursor" in (ROOT / "static" / "site.css").read_text(encoding="utf-8")
+    assert (ROOT / "static" / "paw-cursor-32.png").exists()
+    assert (ROOT / "static" / "ghibli-me-cat.png").exists()
+    assert (ROOT / "static" / "mentor-unknown.png").exists()
     brain = client.get("/brain").get_data(as_text=True)
     assert "BRAINDUMP" in brain
     assert "welcome to my" in brain
@@ -78,6 +91,25 @@ def test_routes() -> None:
     assert "/static/brain/shell.png" in brain
     assert "/static/brain/earbuds.png" in brain
     assert "/static/brain/coffee.png" in brain
+    research = client.get("/research/1").get_data(as_text=True)
+    assert "re-sheltering" in research.lower() or "resheltering" in research.lower() or "re-sheltering" in research
+    assert "A Cat" in research
+    assert "Paul Koudounaris" in research
+    assert "Rethinking Rescue" in research
+    assert "Carol Mithers" in research
+    assert "Dogs Demystified" in research
+    assert "Total Cat Mojo" in research
+    assert "Jackson Galaxy" in research
+    assert "Year of the Puppy" in research
+    assert "Alexandra Horowitz" in research
+    mentor = client.get("/mentor").get_data(as_text=True)
+    assert "mentor" in mentor.lower()
+    assert "/static/mentor-unknown.png" in mentor
+    assert "/contact" in mentor
+    assert "looking" in mentor.lower() or "wanted" in mentor.lower()
+    contact = client.get("/contact").get_data(as_text=True)
+    assert 'action="/contact/send"' in contact
+    assert "id=\"contact-form\"" in contact
     work = client.get("/work/microbit-automizer").get_data(as_text=True)
     assert "AUTOMAZER" in work
     assert "lambjam" in client.get("/work").get_data(as_text=True) or "Finch" in work
@@ -90,6 +122,31 @@ def test_routes() -> None:
     assert "Mahatma" not in about
     assert "DFW Startup Week" in about
     assert "/static/about.jpg" in about
+
+
+def test_contact_saves_message() -> None:
+    with tempfile.TemporaryDirectory(dir=ROOT) as tmp:
+        store = Path(tmp) / "messages.json"
+        os.environ["MESSAGES_FILE"] = str(store)
+        client = app.test_client()
+        resp = client.post(
+            "/contact/send",
+            data={
+                "name": "Test Friend",
+                "email": "friend@example.com",
+                "channel": "personal",
+                "message": "hello from the test suite",
+            },
+            headers={"X-Requested-With": "fetch"},
+        )
+        assert resp.status_code == 200
+        payload = resp.get_json()
+        assert payload["ok"] is True
+        assert store.exists()
+        saved = json.loads(store.read_text(encoding="utf-8"))
+        assert saved[-1]["name"] == "Test Friend"
+        assert "mailto:" in payload["mailto"]
+        os.environ.pop("MESSAGES_FILE", None)
 
 
 def test_compose_and_restart_persistence() -> None:
@@ -115,6 +172,7 @@ def test_compose_and_restart_persistence() -> None:
         payload = json.loads(store.read_text(encoding="utf-8"))
         assert len(payload) == 1, payload
         assert payload[0]["slug"] == "persistence-check"
+        assert "persistence check" in client.get("/blog").get_data(as_text=True)
 
         env = os.environ.copy()
         env["BLOGS_FILE"] = str(store)
@@ -145,6 +203,7 @@ def test_compose_and_restart_persistence() -> None:
 
 if __name__ == "__main__":
     test_routes()
+    test_contact_saves_message()
     test_compose_and_restart_persistence()
     print("all checks passed")
     print("blogs_path default:", blogs_path())
