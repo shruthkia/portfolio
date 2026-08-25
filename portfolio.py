@@ -56,8 +56,8 @@ CONTENT = {
         "copyright": "©2026 | Shruthika Omkumar",
     },
     "quote": {
-        "text": "It is common to love the beautiful, but beautiful to love the common.",
-        "attr": "",
+        "text": "Anyone can love a rose, but it takes a great deal to love a leaf. It’s ordinary to love the beautiful, but it’s beautiful to love the ordinary.",
+        "attr": "S.C. Lourie",
     },
     "hero": {
         "portrait": "/static/ghibli-me-cat.png",
@@ -720,24 +720,6 @@ BASE_HTML = r"""<!DOCTYPE html>
       applyTheme(currentTheme() === "dark" ? "light" : "dark");
     });
 
-    (function () {
-      const who = document.querySelector(".whoami");
-      if (!who) return;
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      function updateWho() {
-        if (reduced) {
-          who.style.setProperty("--who-p", "1");
-          return;
-        }
-        const span = Math.max(1, who.offsetHeight - window.innerHeight * 0.7);
-        const p = Math.min(1, Math.max(0, -who.getBoundingClientRect().top / span));
-        who.style.setProperty("--who-p", String(p));
-      }
-      updateWho();
-      window.addEventListener("scroll", updateWho, { passive: true });
-      window.addEventListener("resize", updateWho);
-    })();
-
     const navToggle = document.getElementById("navToggle");
     const navLinks = document.getElementById("nav-links");
     navToggle.addEventListener("click", () => {
@@ -856,19 +838,12 @@ HOME_PAGE = r"""{% extends "base.html" %}
   </div>
 </section>
 
-<section class="hero hero-slim">
+<section class="hero hero-cta-only">
   <div class="hero-copy">
     <p class="hero-eyebrow reveal">{{ meta.tagline }} <em class="italic">{{ meta.title_italic }}</em></p>
     <div class="hero-ctas reveal" data-delay="0.1">
       <a href="/work" class="btn-pill primary magnetic"><span>{{ hero.cta_work }}</span></a>
       <a href="/about" class="btn-pill magnetic"><span>{{ hero.cta_about }}</span></a>
-    </div>
-  </div>
-  <div class="hero-visual reveal-scale visible" data-delay="0.15">
-    <div class="hero-circle" aria-hidden="true"></div>
-    <div class="hero-portrait-wrap" data-tilt>
-      <img src="{{ hero.portrait }}" alt="{{ hero.portrait_alt }}" width="800" height="1082" decoding="async">
-      <span class="hero-badge">{{ meta.title }}</span>
     </div>
   </div>
 </section>
