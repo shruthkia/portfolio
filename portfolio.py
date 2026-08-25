@@ -15,7 +15,6 @@ import json
 import logging
 import os
 import re
-import secrets
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -40,7 +39,7 @@ app = Flask(
     static_folder=str(BASE_DIR / "static"),
     static_url_path="/static",
 )
-app.secret_key = os.environ.get("PORTFOLIO_SECRET", secrets.token_hex(32))
+app.secret_key = os.environ.get("PORTFOLIO_SECRET") or "shruthika-portfolio-local-secret"
 
 CONTENT = {
     "meta": {
@@ -57,19 +56,13 @@ CONTENT = {
         "copyright": "©2026 | Shruthika Omkumar",
     },
     "quote": {
-        "text": "A ship in harbor is safe, but that is not what ships are built for.",
-        "attr": "John A. Shedd",
+        "text": "It is common to love the beautiful, but beautiful to love the common.",
+        "attr": "",
     },
     "hero": {
-        "portrait": "/static/about.jpg",
+        "portrait": "/static/ghibli-me-cat.png",
+        "portrait_alt": "Ghibli-style illustration of Shruthika with a ginger tabby cat",
         "scrolling_words": ["KIA", "BUILDER"],
-        "intro": (
-            "I do a little bit of everything, designing, writing, organizing chaos, "
-            "maybe oversharing on LinkedIn. Currently figuring out the crossroads between "
-            "<em>creative stuff and nerdy stuff</em> (think: 3D modeling + poetry + tech + "
-            "med + design + business + research??). I've flopped, learned, and somehow "
-            "ended up here, still curious, still experimenting."
-        ),
         "cta_work": "MORE WORK",
         "cta_about": "MORE ABOUT ME",
     },
@@ -83,6 +76,14 @@ CONTENT = {
         {"label": "ABOUT", "href": "/about"},
         {"label": "WORK", "href": "/work"},
         {"label": "ISM", "href": "/ism"},
+        {
+            "label": "RESEARCH",
+            "href": "/research/1",
+            "children": [
+                {"label": "Research 1", "href": "/research/1"},
+            ],
+        },
+        {"label": "MENTOR", "href": "/mentor"},
         {"label": "BRAINDUMP", "href": "/brain"},
         {"label": "BLOG", "href": "/blog"},
         {"label": "WRITING", "href": "/writing"},
@@ -193,6 +194,84 @@ CONTENT = {
         ),
         "personal_title": "Personal mission",
         "personal": "To be able to serve and advocate for those who cannot for themselves.",
+    },
+    "research": {
+        "items": [
+            {
+                "slug": "1",
+                "nav_label": "Research 1",
+                "title": "Research 1",
+                "eyebrow": "ISM · animal behavior & re-sheltering",
+                "topic_label": "My ISM research topic",
+                "topic": (
+                    "Examining how domesticated animals’ behaviour or characteristics change based on "
+                    "re-sheltering, and how that affects their future adoption processes."
+                ),
+                "books_label": "What I’ve been reading",
+                "books": [
+                    {
+                        "title": "A Cat’s Tale",
+                        "author": "Paul Koudounaris (with Baba the Cat)",
+                        "blurb": (
+                            "Feline history told through a rescue cat’s voice, from ancient companions "
+                            "to famous tabbies, with costume-photo energy and real research underneath."
+                        ),
+                    },
+                    {
+                        "title": "Rethinking Rescue",
+                        "author": "Carol Mithers",
+                        "blurb": (
+                            "A look at animal rescue through poverty and community care, asking who gets "
+                            "to keep a pet and how shelters can support people instead of only removing animals."
+                        ),
+                    },
+                    {
+                        "title": "Dogs Demystified",
+                        "author": "Marc Bekoff",
+                        "blurb": (
+                            "A friendly A-to-Z of dog behavior, emotions, and dog–human relationships "
+                            "from a scientist who translates the research into everyday sense."
+                        ),
+                    },
+                    {
+                        "title": "Total Cat Mojo",
+                        "author": "Jackson Galaxy",
+                        "blurb": (
+                            "Cat behavior, confidence, and home setup from the Cat Daddy angle: why cats "
+                            "do what they do, and how to build a space where their mojo can thrive."
+                        ),
+                    },
+                    {
+                        "title": "The Year of the Puppy",
+                        "author": "Alexandra Horowitz",
+                        "blurb": (
+                            "A month-by-month look at how a puppy becomes themselves, blending cognition "
+                            "science with the messy, sweet reality of raising a dog."
+                        ),
+                    },
+                ],
+            },
+        ],
+    },
+    "mentor": {
+        "title": "mentor",
+        "title_em": "wanted",
+        "photo": "/static/mentor-unknown.png",
+        "photo_alt": "Unknown mentor placeholder with a question mark silhouette",
+        "kicker": "status: currently unclaimed",
+        "headline": "no mentor on the leash yet",
+        "body": (
+            "I don’t have an ISM mentor right now, and I’m actively looking for one. "
+            "If you’re in animal behavior, sheltering, veterinary science, rescue work, or anything "
+            "adjacent to how pets change after rehoming, I would love to learn from you."
+        ),
+        "pun": (
+            "Think of this as a missing-mentor flyer. Have you seen this opportunity? "
+            "Last spotted: still meowing for guidance. Reward: a very motivated student who shows up, "
+            "takes notes, and will not ghost your inbox."
+        ),
+        "cta": "If that’s you, please reach out",
+        "cta_href": "/contact",
     },
     "brain": {
         "kicker": "A digitized collection of things and core memories that live rent-free in my mind.",
@@ -567,7 +646,18 @@ BASE_HTML = r"""<!DOCTYPE html>
       <a href="/" class="logo">{{ meta.name }}</a>
       <ul class="nav-links" id="nav-links" aria-label="Main navigation">
         {% for link in nav %}
-          <li><a href="{{ link.href }}" class="nav-link{% if active == link.label %} active{% endif %}">{{ link.label }}</a></li>
+          {% if link.children %}
+          <li class="nav-item has-dropdown{% if active == link.label or active.startswith(link.label) %} active-parent{% endif %}">
+            <a href="{{ link.href }}" class="nav-link{% if active == link.label or active.startswith(link.label) %} active{% endif %}" aria-haspopup="true">{{ link.label }}</a>
+            <ul class="nav-dropdown" aria-label="{{ link.label }} submenu">
+              {% for child in link.children %}
+              <li><a href="{{ child.href }}" class="nav-dropdown-link{% if request_path == child.href %} active{% endif %}">{{ child.label }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% else %}
+          <li class="nav-item"><a href="{{ link.href }}" class="nav-link{% if active == link.label %} active{% endif %}">{{ link.label }}</a></li>
+          {% endif %}
         {% endfor %}
       </ul>
       <div class="nav-tools">
@@ -655,6 +745,14 @@ BASE_HTML = r"""<!DOCTYPE html>
       navToggle.setAttribute("aria-expanded", open ? "true" : "false");
       navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     });
+    navLinks.querySelectorAll(".has-dropdown > .nav-link").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        if (window.matchMedia("(max-width: 960px)").matches) {
+          e.preventDefault();
+          link.parentElement.classList.toggle("open");
+        }
+      });
+    });
 
     const reveals = document.querySelectorAll(".reveal, .reveal-scale");
     const observer = new IntersectionObserver(entries => {
@@ -710,7 +808,7 @@ BASE_HTML = r"""<!DOCTYPE html>
         e.preventDefault();
         const fd = new FormData(contactForm);
         const btn = contactForm.querySelector(".form-submit");
-        if (btn) { btn.disabled = true; btn.textContent = "Opening email…"; }
+        if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
         try {
           const res = await fetch("/contact/send", {
             method: "POST",
@@ -718,23 +816,21 @@ BASE_HTML = r"""<!DOCTYPE html>
             headers: { "X-Requested-With": "fetch" },
           });
           const data = await res.json();
-          if (data.ok && data.mailto) {
-            window.location.href = data.mailto;
+          if (data.ok) {
+            if (data.mailto) {
+              const mail = window.open(data.mailto, "_blank");
+              if (!mail) {
+                window.location.href = data.mailto;
+              }
+            }
+            window.setTimeout(() => {
+              window.location.href = "/contact?sent=1";
+            }, 250);
             return;
           }
           window.location.href = "/contact?sent=0";
         } catch (err) {
-          const name = fd.get("name") || "";
-          const email = fd.get("email") || "";
-          const message = fd.get("message") || "";
-          const channel = fd.get("channel") || "personal";
-          const to = channel === "school" ? {{ meta.school_email|tojson }} : {{ meta.email|tojson }};
-          const cc = channel === "school" ? {{ meta.email|tojson }} : "";
-          const subject = encodeURIComponent("Portfolio hello from " + name);
-          const body = encodeURIComponent("From: " + name + "\nReply-to: " + email + "\n\n" + message + "\n");
-          let mailto = "mailto:" + to + "?subject=" + subject + "&body=" + body;
-          if (cc) mailto += "&cc=" + encodeURIComponent(cc);
-          window.location.href = mailto;
+          contactForm.submit();
         }
       });
     }
@@ -750,21 +846,20 @@ HOME_PAGE = r"""{% extends "base.html" %}
     <h1 class="whoami-title reveal visible">who am <em>i</em></h1>
     <img
       class="whoami-cutout"
-      src="/static/whoami-cutout.png"
+      src="/static/ghibli-me-cat.png"
       width="766"
       height="900"
-      alt="{{ meta.name }} in a leopard-print dress, shrugging with a pink camera"
+      alt="Ghibli-style illustration of {{ meta.name }} sitting with a ginger tabby cat"
     >
     <p class="whoami-line whoami-idk">i don't know..</p>
-    <p class="whoami-line whoami-sure">but one thing for sure is i look like i know. please don't quiz me</p>
+    <p class="whoami-line whoami-sure">but one things for sure is i love animals.</p>
   </div>
 </section>
 
-<section class="hero">
+<section class="hero hero-slim">
   <div class="hero-copy">
     <p class="hero-eyebrow reveal">{{ meta.tagline }} <em class="italic">{{ meta.title_italic }}</em></p>
-    <p class="hero-intro reveal" data-delay="0.1">{{ hero.intro | safe_em }}</p>
-    <div class="hero-ctas reveal" data-delay="0.2">
+    <div class="hero-ctas reveal" data-delay="0.1">
       <a href="/work" class="btn-pill primary magnetic"><span>{{ hero.cta_work }}</span></a>
       <a href="/about" class="btn-pill magnetic"><span>{{ hero.cta_about }}</span></a>
     </div>
@@ -772,7 +867,7 @@ HOME_PAGE = r"""{% extends "base.html" %}
   <div class="hero-visual reveal-scale visible" data-delay="0.15">
     <div class="hero-circle" aria-hidden="true"></div>
     <div class="hero-portrait-wrap" data-tilt>
-      <img src="{{ hero.portrait }}" alt="{{ meta.name }} in a black blazer at DFW Startup Week" width="800" height="1082" decoding="async">
+      <img src="{{ hero.portrait }}" alt="{{ hero.portrait_alt }}" width="800" height="1082" decoding="async">
       <span class="hero-badge">{{ meta.title }}</span>
     </div>
   </div>
@@ -780,7 +875,7 @@ HOME_PAGE = r"""{% extends "base.html" %}
 
 <figure class="quote-banner reveal">
   <blockquote>“{{ quote.text }}”</blockquote>
-  <figcaption>{{ quote.attr }}</figcaption>
+  {% if quote.attr %}<figcaption>{{ quote.attr }}</figcaption>{% endif %}
 </figure>
 
 <div class="big-scroll-wrap" aria-hidden="true">
@@ -1056,6 +1151,7 @@ COMPOSE_PAGE = r"""{% extends "base.html" %}
   <button type="submit" class="form-submit">Unlock</button>
 </form>
 {% else %}
+<p class="contact-body reveal" style="font-size:15px;max-width:560px;">Posts save to <code>{{ blogs_file }}</code>. After publishing you should land on the new post page.</p>
 <form method="post" class="contact-form compose-form reveal" aria-label="New blog post">
   <input type="hidden" name="action" value="publish">
   <div class="form-field">
@@ -1083,6 +1179,9 @@ CONTACT_PAGE = r"""{% extends "base.html" %}
 
 {% if flash_msg %}
 <p class="flash flash-{{ flash_type }}" role="status">{{ flash_msg }}</p>
+{% endif %}
+{% if request_args.get('sent') == '1' %}
+<p class="flash flash-success" role="status">Got it. Your note is saved. If your email app didn’t open, just tap an address below.</p>
 {% endif %}
 
 <section class="reveal visible">
@@ -1116,7 +1215,7 @@ CONTACT_PAGE = r"""{% extends "base.html" %}
         <option value="personal">Personal email (anytime)</option>
         <option value="school">School email, 9:00 to 4:30 · CC personal</option>
       </select>
-      <span class="form-help">This opens your email app with the message filled in, so it actually reaches me.</span>
+      <span class="form-help">I’ll save your note here, then try to open your email app with it filled in.</span>
     </div>
     <div class="form-field">
       <label for="message">Message</label>
@@ -1124,6 +1223,52 @@ CONTACT_PAGE = r"""{% extends "base.html" %}
     </div>
     <button type="submit" class="form-submit">Send message</button>
   </form>
+</section>
+{% endblock %}
+"""
+
+RESEARCH_PAGE = r"""{% extends "base.html" %}
+{% block content %}
+<p class="about-location reveal">{{ entry.eyebrow }}</p>
+<h1 class="page-title reveal">research <em>{{ entry.slug }}</em></h1>
+
+<article class="ism-card reveal" style="margin-top:1.25rem;">
+  <h2>{{ entry.topic_label }}</h2>
+  <p>{{ entry.topic }}</p>
+</article>
+
+<section style="margin-top:2rem;">
+  <div class="section-head reveal" style="border-top:none;padding-top:0;">
+    <h2 class="page-title" style="font-size:clamp(28px,4vw,44px);">reading <em>list</em></h2>
+  </div>
+  <div class="research-books">
+    {% for book in entry.books %}
+    <article class="research-book reveal" data-delay="{{ loop.index0 * 0.05 }}">
+      <h3>{{ book.title }}</h3>
+      <p class="research-author">{{ book.author }}</p>
+      <p>{{ book.blurb }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+"""
+
+MENTOR_PAGE = r"""{% extends "base.html" %}
+{% block content %}
+<p class="about-location reveal">{{ mentor.kicker }}</p>
+<h1 class="page-title reveal">{{ mentor.title }} <em>{{ mentor.title_em }}</em></h1>
+
+<section class="mentor-layout reveal visible">
+  <figure class="mentor-photo-wrap">
+    <img class="mentor-photo" src="{{ mentor.photo }}" alt="{{ mentor.photo_alt }}" width="640" height="640" decoding="async">
+  </figure>
+  <div class="mentor-copy">
+    <h2 class="mentor-headline">{{ mentor.headline }}</h2>
+    <p class="contact-body" style="font-size:18px;">{{ mentor.body }}</p>
+    <p class="mentor-pun">{{ mentor.pun }}</p>
+    <a href="{{ mentor.cta_href }}" class="btn-pill primary magnetic" style="margin-top:1.25rem;display:inline-flex;"><span>{{ mentor.cta }}</span></a>
+  </div>
 </section>
 {% endblock %}
 """
@@ -1136,7 +1281,7 @@ ISM_PAGE = r"""{% extends "base.html" %}
 
 <figure class="quote-banner reveal">
   <blockquote>“{{ quote.text }}”</blockquote>
-  <figcaption>{{ quote.attr }}</figcaption>
+  {% if quote.attr %}<figcaption>{{ quote.attr }}</figcaption>{% endif %}
 </figure>
 
 <div class="ism-grid">
@@ -1250,7 +1395,7 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
     <div class="brain-dark-deco">
       <aside class="sticky-note reveal">
         <p>“{{ quote.text }}”</p>
-        <cite>{{ quote.attr }}</cite>
+        {% if quote.attr %}<cite>{{ quote.attr }}</cite>{% endif %}
       </aside>
     </div>
   </div>
@@ -1272,13 +1417,22 @@ def _writable_dir(path: Path) -> bool:
 
 
 def data_dir() -> Path:
+    """Prefer an explicitly configured persistent disk, otherwise the app folder.
+
+    Silently preferring /var/data or /data made posts disappear on redeploy when those
+    mounts were empty/temporary, while the packaged blogs.json looked unchanged.
+    """
     env = os.environ.get("DATA_DIR") or os.environ.get("RENDER_DISK_PATH")
-    candidates: list[Path] = []
     if env:
-        candidates.append(Path(env).expanduser())
-    candidates.extend([Path("/var/data"), Path("/data"), BASE_DIR])
-    for candidate in candidates:
+        candidate = Path(env).expanduser()
         if _writable_dir(candidate):
+            return candidate
+        log.warning("DATA_DIR %s is not writable; falling back to app directory", candidate)
+    if _writable_dir(BASE_DIR):
+        return BASE_DIR
+    for candidate in (Path("/var/data"), Path("/data")):
+        if _writable_dir(candidate):
+            log.warning("Using fallback data dir %s; set DATA_DIR for durable blog storage", candidate)
             return candidate
     return BASE_DIR
 
@@ -1353,6 +1507,16 @@ def save_blogs(blogs: list[dict]) -> bool:
     path = blogs_path()
     try:
         atomic_write_json(path, blogs)
+        # Mirror into the packaged seed when using the default store (not a custom BLOGS_FILE).
+        if not os.environ.get("BLOGS_FILE") and path.resolve() != PACKAGED_BLOGS.resolve():
+            try:
+                atomic_write_json(PACKAGED_BLOGS, blogs)
+            except OSError as exc:
+                log.warning("Saved %s but could not mirror to packaged blogs.json: %s", path, exc)
+        verified = _read_json_list(path)
+        if len(verified) != len(blogs):
+            log.error("Blog save verification failed for %s", path)
+            return False
         log.info("Saved %s blog post(s) to %s", len(blogs), path)
         return True
     except OSError as exc:
@@ -1465,6 +1629,8 @@ _jinja = Environment(
         "compose.html": COMPOSE_PAGE,
         "ism.html": ISM_PAGE,
         "brain.html": BRAIN_PAGE,
+        "research.html": RESEARCH_PAGE,
+        "mentor.html": MENTOR_PAGE,
     }),
     autoescape=select_autoescape(["html"]),
 )
@@ -1472,12 +1638,19 @@ _jinja.filters["safe_em"] = safe_em_filter
 
 
 def _ctx(*, active: str, page_title: str, show_contact: bool = True, wide_page: bool = False, brain_page: bool = False, **extra) -> dict:
+    req_path = ""
+    req_args = {}
+    if has_request_context():
+        req_path = request.path
+        req_args = request.args
     ctx = {
         "active": active,
         "page_title": page_title,
         "show_contact": show_contact,
         "wide_page": wide_page,
         "brain_page": brain_page,
+        "request_path": req_path,
+        "request_args": req_args,
         "meta": CONTENT["meta"],
         "hero": CONTENT["hero"],
         "nav": CONTENT["nav"],
@@ -1487,6 +1660,8 @@ def _ctx(*, active: str, page_title: str, show_contact: bool = True, wide_page: 
         "about": CONTENT["about"],
         "quote": CONTENT["quote"],
         "ism": CONTENT["ism"],
+        "research": CONTENT["research"],
+        "mentor": CONTENT["mentor"],
         "brain": CONTENT["brain"],
         "experience_groups": group_items(CONTENT["about"]["experience"], ("company",)),
         "education_groups": group_items(CONTENT["about"]["education"], ("school", "degree")),
@@ -1497,6 +1672,7 @@ def _ctx(*, active: str, page_title: str, show_contact: bool = True, wide_page: 
         "flash_msg": session.pop("flash_msg", None) if has_request_context() else None,
         "flash_type": session.pop("flash_type", "success") if has_request_context() else "success",
         "compose_authed": session.get("compose_authed", False) if has_request_context() else False,
+        "blogs_file": str(blogs_path()),
     }
     ctx.update(extra)
     return ctx
@@ -1543,6 +1719,29 @@ def ism():
     return render_page("ism.html", active="ISM", page_title="ISM")
 
 
+@app.route("/research")
+def research_index():
+    return redirect(url_for("research_detail", slug="1"))
+
+
+@app.route("/research/<slug>")
+def research_detail(slug: str):
+    entry = next((item for item in CONTENT["research"]["items"] if item["slug"] == slug), None)
+    if not entry:
+        return redirect(url_for("research_detail", slug="1"))
+    return render_page(
+        "research.html",
+        active="RESEARCH",
+        page_title=entry["nav_label"],
+        entry=entry,
+    )
+
+
+@app.route("/mentor")
+def mentor():
+    return render_page("mentor.html", active="MENTOR", page_title="Mentor")
+
+
 @app.route("/brain")
 def brain():
     return render_page("brain.html", active="BRAINDUMP", page_title="my braindump", wide_page=True, brain_page=True)
@@ -1570,13 +1769,16 @@ def contact_send():
         saved = save_message(name, email, message, channel)
     except OSError:
         saved = False
-    if not saved and not wants_json:
-        session["flash_msg"] = "Could not save your message. Opening email instead."
-        session["flash_type"] = "error"
     mailto = build_mailto(name, email, message, channel)
     if wants_json:
-        return jsonify({"ok": True, "mailto": mailto})
-    return redirect(mailto)
+        return jsonify({"ok": True, "saved": saved, "mailto": mailto})
+    if saved:
+        session["flash_msg"] = "Got your note. If your email app didn’t open, use the addresses above."
+        session["flash_type"] = "success"
+    else:
+        session["flash_msg"] = "Could not save your message here, but you can still email me directly below."
+        session["flash_type"] = "error"
+    return redirect(url_for("contact", sent="1" if saved else "0"))
 
 
 @app.route("/writing")
