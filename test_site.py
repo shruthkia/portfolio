@@ -85,12 +85,24 @@ def test_routes() -> None:
     assert "min-height: 150vh" in css
     assert "--who-p" in css
     assert "position: sticky" in css
+    assert "align-content: center" in css
+    # Pre-scroll: cutout visible at who-p 0 (not fade-gated behind 0.12)
+    assert "(var(--who-p) - 0.12)" not in css
+    assert "opacity: clamp(0.55" in css
+    whoami_block = css[css.find(".whoami-cutout") : css.find(".whoami-line")]
+    assert "opacity: 1;" in whoami_block or "opacity: 1\n" in whoami_block
     base = (ROOT / "portfolio.py").read_text(encoding="utf-8")
     assert 'setProperty("--who-p"' in base
     assert "prefers-reduced-motion" in base
     assert not (ROOT / "static" / "paw-cursor.png").exists()
     assert not (ROOT / "static" / "paw-cursor-32.png").exists()
     assert (ROOT / "static" / "ghibli-me-cat.png").exists()
+    # Transparent cutout (near-white backdrop removed)
+    from PIL import Image
+    whoami_img = Image.open(ROOT / "static" / "ghibli-me-cat.png")
+    assert whoami_img.mode == "RGBA"
+    assert whoami_img.getpixel((0, 0))[3] == 0
+    assert whoami_img.getpixel((whoami_img.size[0] // 2, whoami_img.size[1] // 2))[3] > 0
     assert (ROOT / "static" / "mentor-unknown.png").exists()
     ism = client.get("/ism").get_data(as_text=True)
     assert "S.C. Lourie" in ism
