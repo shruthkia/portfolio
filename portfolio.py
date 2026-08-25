@@ -720,6 +720,24 @@ BASE_HTML = r"""<!DOCTYPE html>
       applyTheme(currentTheme() === "dark" ? "light" : "dark");
     });
 
+    (function () {
+      const who = document.querySelector(".whoami");
+      if (!who) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      function updateWho() {
+        if (reduced) {
+          who.style.setProperty("--who-p", "1");
+          return;
+        }
+        const span = Math.max(1, who.offsetHeight - window.innerHeight * 0.7);
+        const p = Math.min(1, Math.max(0, -who.getBoundingClientRect().top / span));
+        who.style.setProperty("--who-p", String(p));
+      }
+      updateWho();
+      window.addEventListener("scroll", updateWho, { passive: true });
+      window.addEventListener("resize", updateWho);
+    })();
+
     const navToggle = document.getElementById("navToggle");
     const navLinks = document.getElementById("nav-links");
     navToggle.addEventListener("click", () => {

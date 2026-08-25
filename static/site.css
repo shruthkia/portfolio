@@ -843,18 +843,19 @@ body:hover .cursor-glow { opacity: 1; }
 }
 
 .whoami {
+  --who-p: 0;
   position: relative;
-  min-height: 0;
-  margin: 0 0 0.75rem;
-  padding: 1.25rem 0 0.5rem;
+  min-height: 150vh;
+  margin: 0 -1.5rem 0.75rem;
+  padding: 10vh 1.5rem 10vh;
 }
 .whoami-sticky {
-  position: relative;
-  top: auto;
+  position: sticky;
+  top: 14vh;
   display: grid;
   justify-items: center;
   text-align: center;
-  min-height: 0;
+  min-height: 62vh;
   gap: 0.35rem;
 }
 .whoami-title {
@@ -871,8 +872,8 @@ body:hover .cursor-glow { opacity: 1; }
   height: auto;
   margin: 0.85rem 0 0.55rem;
   filter: drop-shadow(0 18px 28px rgba(40, 12, 24, 0.22));
-  opacity: 1;
-  transform: rotate(-1.5deg);
+  opacity: clamp(0, calc((var(--who-p) - 0.12) * 5), 1);
+  transform: translateY(calc((1 - clamp(0, calc((var(--who-p) - 0.12) * 5), 1)) * 28px)) rotate(-1.5deg);
   pointer-events: none;
 }
 .whoami-line {
@@ -882,18 +883,19 @@ body:hover .cursor-glow { opacity: 1; }
   max-width: 34rem;
   line-height: 1.55;
   color: var(--text-soft);
-  opacity: 1;
 }
 .whoami-idk {
   font-size: clamp(16px, 2.4vw, 22px);
   color: var(--accent);
+  opacity: clamp(0, calc((var(--who-p) - 0.38) * 5.5), 1);
 }
 .whoami-sure {
   font-size: clamp(13px, 1.8vw, 16px);
-  margin-top: 0.35rem;
+  margin-top: 0.45rem;
+  opacity: clamp(0, calc((var(--who-p) - 0.62) * 5.5), 1);
 }
 @media (prefers-reduced-motion: reduce) {
-  .whoami { min-height: auto; padding: 1.25rem 0 0.5rem; }
+  .whoami { min-height: auto; padding: 1.25rem 1.5rem 0.5rem; }
   .whoami-sticky { position: static; min-height: 0; }
   .whoami-cutout, .whoami-idk, .whoami-sure {
     opacity: 1; transform: none;
@@ -1227,7 +1229,7 @@ body:hover .cursor-glow { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   .ticker, .big-scroll, .moving-light, .moving-light-2, .float-shape, .float-cross, .ascii-art { animation: none; }
   .cursor-glow { display: none; }
-  .whoami { min-height: auto; padding: 1.25rem 0 0.5rem; }
+  .whoami { min-height: auto; padding: 1.25rem 1.5rem 0.5rem; }
   .whoami-sticky { position: static; min-height: 0; }
   .whoami-cutout, .whoami-idk, .whoami-sure { opacity: 1 !important; transform: none !important; }
 }
