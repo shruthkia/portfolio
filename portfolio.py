@@ -847,8 +847,8 @@ HOME_PAGE = r"""{% extends "base.html" %}
     <img
       class="whoami-cutout"
       src="/static/ghibli-me-cat.png"
-      width="766"
-      height="900"
+      width="335"
+      height="387"
       alt="Ghibli-style illustration of {{ meta.name }} sitting with a ginger tabby cat"
     >
     <p class="whoami-line whoami-idk">i don't know..</p>

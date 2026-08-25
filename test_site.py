@@ -97,6 +97,12 @@ def test_routes() -> None:
     assert not (ROOT / "static" / "paw-cursor.png").exists()
     assert not (ROOT / "static" / "paw-cursor-32.png").exists()
     assert (ROOT / "static" / "ghibli-me-cat.png").exists()
+    # Transparent cutout (near-white backdrop removed)
+    from PIL import Image
+    whoami_img = Image.open(ROOT / "static" / "ghibli-me-cat.png")
+    assert whoami_img.mode == "RGBA"
+    assert whoami_img.getpixel((0, 0))[3] == 0
+    assert whoami_img.getpixel((whoami_img.size[0] // 2, whoami_img.size[1] // 2))[3] > 0
     assert (ROOT / "static" / "mentor-unknown.png").exists()
     ism = client.get("/ism").get_data(as_text=True)
     assert "S.C. Lourie" in ism
