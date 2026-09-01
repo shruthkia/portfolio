@@ -1119,6 +1119,9 @@ BLOG_POST_PAGE = r"""{% extends "base.html" %}
   {% endif %}
   <p class="about-location">{{ post.date }}</p>
   <h1 class="page-title">{{ post.title }}</h1>
+  {% if post.excerpt %}
+  <p class="blog-subtitle">{{ post.excerpt }}</p>
+  {% endif %}
   <div class="blog-body">
     {% for para in post.body_paragraphs %}
     <p>{{ para }}</p>

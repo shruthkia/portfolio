@@ -143,6 +143,20 @@ def test_routes() -> None:
     contact = client.get("/contact").get_data(as_text=True)
     assert 'action="/contact/send"' in contact
     assert "id=\"contact-form\"" in contact
+    blog = client.get("/blog").get_data(as_text=True)
+    assert "the summer heat has been burning through" in blog
+    assert "first few weeks of junior year" in blog
+    assert "/blog/the-summer-heat-has-been-burning-through" in blog
+    junior_resp = client.get("/blog/the-summer-heat-has-been-burning-through")
+    assert junior_resp.status_code == 200
+    junior = junior_resp.get_data(as_text=True)
+    assert "Davis Library" in junior
+    assert "animal behaviour" in junior
+    assert "FCCLA CEAT Interview" in junior
+    assert "4 day weekend" in junior
+    assert "Vibhum" in junior
+    assert "blog-subtitle" in junior
+    assert "And there goes the first few weeks of junior year" in junior
     work = client.get("/work/microbit-automizer").get_data(as_text=True)
     assert "AUTOMAZER" in work
     assert "lambjam" in client.get("/work").get_data(as_text=True) or "Finch" in work
