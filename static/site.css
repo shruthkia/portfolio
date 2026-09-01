@@ -650,6 +650,10 @@ html[data-theme="dark"] .theme-switch-knob { transform: translateX(24px); }
 .email-card a:hover { color: var(--accent); }
 .email-card p { color: var(--muted); font-size: 14px; margin-top: 0.3rem; }
 
+.blog-subtitle {
+  font-size: 18px; font-style: italic; color: var(--muted);
+  max-width: 680px; margin: -0.2rem 0 1.35rem; line-height: 1.45;
+}
 .blog-body { max-width: 680px; color: var(--text-soft); font-size: 17px; line-height: 1.7; }
 .blog-body p { margin-bottom: 1rem; }
 .project-story-hero {
