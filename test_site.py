@@ -92,9 +92,19 @@ def test_routes() -> None:
     assert "(var(--who-p) - 0.68)" in css
     whoami_block = css[css.find(".whoami-cutout") : css.find(".whoami-line")]
     assert "opacity: clamp(0, calc((var(--who-p) - 0.18) * 4.5), 1)" in whoami_block
-    base = (ROOT / "portfolio.py").read_text(encoding="utf-8")
-    assert 'setProperty("--who-p"' in base
-    assert "prefers-reduced-motion" in base
+    site_js = (ROOT / "static" / "site.js").read_text(encoding="utf-8")
+    assert 'setProperty("--who-p"' in site_js
+    assert "prefers-reduced-motion" in site_js
+    assert '<script src="/static/site.js" defer></script>' in home
+    assert 'rel="preload"' in home and 'as="style"' in home
+    assert "this.rel='stylesheet'" in home
+    assert '<noscript><link rel="stylesheet" href="/static/site.css"></noscript>' in home
+    assert home.count('<link rel="stylesheet" href="/static/site.css">') == 1
+    assert ".site-header" in home
+    assert "--bg:" in home
+    assert "min-height: 220vh" in home or "min-height:220vh" in home
+    assert client.get("/static/site.js").status_code == 200
+    assert client.get("/static/critical.css").status_code == 200
     assert not (ROOT / "static" / "paw-cursor.png").exists()
     assert not (ROOT / "static" / "paw-cursor-32.png").exists()
     assert (ROOT / "static" / "ghibli-me-cat.png").exists()
