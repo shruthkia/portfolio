@@ -68,7 +68,7 @@ def test_routes() -> None:
     assert "please don't quiz me" not in home
     assert "/static/ghibli-me-cat.png" in home
     assert "hero-cta-only" in home
-    assert "hero-portrait-wrap" not in home
+    assert 'class="hero-portrait-wrap"' not in home
     assert home.count("/static/ghibli-me-cat.png") == 1
     assert "hero-intro" not in home or "I do a little bit of everything, designing" not in home
     assert "love a leaf" in home.lower()
@@ -96,15 +96,14 @@ def test_routes() -> None:
     assert 'setProperty("--who-p"' in site_js
     assert "prefers-reduced-motion" in site_js
     assert '<script src="/static/site.js" defer></script>' in home
-    assert 'rel="preload"' in home and 'as="style"' in home
-    assert "this.rel='stylesheet'" in home
-    assert '<noscript><link rel="stylesheet" href="/static/site.css"></noscript>' in home
-    assert home.count('<link rel="stylesheet" href="/static/site.css">') == 1
+    assert "this.rel='stylesheet'" not in home
+    assert '<link rel="stylesheet" href="/static/site.css">' not in home
     assert ".site-header" in home
     assert "--bg:" in home
     assert "min-height: 220vh" in home or "min-height:220vh" in home
+    assert 'setProperty("--who-p"' in home
     assert client.get("/static/site.js").status_code == 200
-    assert client.get("/static/critical.css").status_code == 200
+    assert client.get("/static/site.css").status_code == 200
     assert not (ROOT / "static" / "paw-cursor.png").exists()
     assert not (ROOT / "static" / "paw-cursor-32.png").exists()
     assert (ROOT / "static" / "ghibli-me-cat.png").exists()
