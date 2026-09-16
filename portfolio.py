@@ -29,7 +29,7 @@ STATIC_PROJECTS = "/static/projects"
 PACKAGED_BLOGS = BASE_DIR / "blogs.json"
 PACKAGED_MESSAGES = BASE_DIR / "messages.json"
 COMPOSE_PASSWORD = os.environ.get("COMPOSE_PASSWORD", "kia-compose-2026")
-CRITICAL_CSS_PATH = BASE_DIR / "static" / "critical.css"
+SITE_CSS_PATH = BASE_DIR / "static" / "site.css"
 
 log = logging.getLogger("portfolio")
 if not log.handlers:
@@ -612,10 +612,8 @@ BASE_HTML = r"""<!DOCTYPE html>
       font-weight: 400; font-style: normal; font-display: swap;
     }
   </style>
-  {% if critical_css %}
-  <style>{{ critical_css }}</style>
-  <link rel="preload" href="/static/site.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/static/site.css"></noscript>
+  {% if inline_css %}
+  <style>{{ inline_css }}</style>
   {% else %}
   <link rel="stylesheet" href="/static/site.css">
   {% endif %}
@@ -710,6 +708,24 @@ BASE_HTML = r"""<!DOCTYPE html>
     </div>
   </footer>
 
+  <script>
+    (function () {
+      document.querySelectorAll(".reveal, .reveal-scale").forEach(function (el, i) {
+        el.style.transitionDelay = (el.dataset.delay || (i * 0.05)) + "s";
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.92) el.classList.add("visible");
+      });
+      var who = document.querySelector(".whoami");
+      if (!who) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        who.style.setProperty("--who-p", "1");
+        return;
+      }
+      var span = Math.max(1, who.offsetHeight - window.innerHeight * 0.7);
+      var p = Math.min(1, Math.max(0, -who.getBoundingClientRect().top / span));
+      who.style.setProperty("--who-p", String(p));
+    })();
+  </script>
 </body>
 </html>
 """
@@ -1276,19 +1292,19 @@ BRAIN_PAGE = r"""{% extends "base.html" %}
 """
 
 
-def load_critical_css() -> str:
-    """Compact above-the-fold CSS so the full stylesheet can load without blocking paint."""
+def load_inline_css() -> str:
+    """Inline the full stylesheet so first paint has every rule and animations do not restart."""
     try:
-        text = CRITICAL_CSS_PATH.read_text(encoding="utf-8")
+        text = SITE_CSS_PATH.read_text(encoding="utf-8")
     except OSError:
-        log.warning("Could not read %s; falling back to a render-blocking stylesheet", CRITICAL_CSS_PATH)
+        log.warning("Could not read %s; falling back to a linked stylesheet", SITE_CSS_PATH)
         return ""
     text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
     text = re.sub(r"\s+", " ", text)
     return text.strip()
 
 
-CRITICAL_CSS = load_critical_css()
+INLINE_CSS = load_inline_css()
 
 
 def _writable_dir(path: Path) -> bool:
@@ -1555,7 +1571,7 @@ def _ctx(*, active: str, page_title: str, show_contact: bool = True, wide_page: 
         "writing": CONTENT["writing"],
         "more_of_me": CONTENT["more_of_me"],
         "blogs": load_blogs(),
-        "critical_css": Markup(CRITICAL_CSS),
+        "inline_css": Markup(INLINE_CSS),
         "flash_msg": session.pop("flash_msg", None) if has_request_context() else None,
         "flash_type": session.pop("flash_type", "success") if has_request_context() else "success",
         "compose_authed": session.get("compose_authed", False) if has_request_context() else False,

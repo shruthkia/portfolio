@@ -24,6 +24,7 @@
     const who = document.querySelector(".whoami");
     if (!who) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let ticking = false;
     function updateWho() {
       if (reduced) {
         who.style.setProperty("--who-p", "1");
@@ -33,8 +34,16 @@
       const p = Math.min(1, Math.max(0, -who.getBoundingClientRect().top / span));
       who.style.setProperty("--who-p", String(p));
     }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateWho();
+        ticking = false;
+      });
+    }
     updateWho();
-    window.addEventListener("scroll", updateWho, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", updateWho);
   })();
 
@@ -58,22 +67,13 @@
 
   const reveals = document.querySelectorAll(".reveal, .reveal-scale");
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("visible");
-        e.target.classList.remove("reveal-pending");
-      }
-    });
+    entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); });
   }, { threshold: 0.08 });
   reveals.forEach((el, i) => {
     el.style.transitionDelay = (el.dataset.delay || (i * 0.05)) + "s";
+    observer.observe(el);
     const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight * 0.92) {
-      el.classList.add("visible");
-    } else {
-      el.classList.add("reveal-pending");
-      observer.observe(el);
-    }
+    if (r.top < window.innerHeight * 0.92) el.classList.add("visible");
   });
 
   const glow = document.getElementById("cursorGlow");
