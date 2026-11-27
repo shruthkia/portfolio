@@ -1,3 +1,9 @@
+node_modules/
+*.pdf
+!internal/**/*.pdf
+.DS_Store
 __pycache__/
 *.pyc
-.pytest_cache/
+.playwright/
+Shockwaves-38213-Engineering-Portfolio-BIOBUZZ.pdf
+.env

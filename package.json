@@ -1,0 +1,19 @@
+{
+  "name": "shockwaves-ftc-engineering-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shockwaves FTC 38213 Engineering Portfolio template — 2026–2027 BIOBUZZ",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "export:pdf": "node scripts/export-pdf.mjs",
+    "assets": "python3 scripts/generate-assets.py"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "playwright": "^1.50.1"
+  }
+}
